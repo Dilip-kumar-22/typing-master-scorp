@@ -1,0 +1,67 @@
+name: Android build (debug APK)
+
+# Builds an installable Android debug APK in the cloud and publishes it as a
+# downloadable artifact. No local Android SDK / JDK required — GitHub's
+# ubuntu-latest runners ship the Android SDK, and we add Temurin JDK 21.
+#
+# After a run finishes:  GitHub → Actions tab → this run → "Artifacts" →
+# download "typing-master-debug-apk", unzip, copy the .apk to your phone,
+# and install (enable "Install unknown apps" for your file manager once).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - '.github/workflows/android.yml'
+  workflow_dispatch: {}
+
+jobs:
+  build-android:
+    name: Build debug APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+      - name: Build web app (tsc + vite + SEO)
+        run: npm run build
+
+      - name: Sync Capacitor → Android
+        run: npx cap sync android
+
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+
+      - name: Build debug APK
+        working-directory: app/android
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: typing-master-debug-apk
+          path: app/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 30
