@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Maskable icon: art must stay inside the 80% safe zone (51-461). -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d0c24"/>
+      <stop offset="100%" stop-color="#14122e"/>
+    </linearGradient>
+    <linearGradient id="key" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="stroke" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="50%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+
+  <!-- full-bleed background (mask will round it) -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+
+  <!-- centered keyboard, safely inside the 80% zone -->
+  <g transform="translate(96, 96) scale(0.625)">
+    <rect x="80" y="160" width="352" height="208" rx="32" fill="#1a1635" stroke="url(#stroke)" stroke-width="4"/>
+    <rect x="118" y="250" width="48" height="48" rx="10" fill="url(#key)"/>
+    <rect x="178" y="250" width="48" height="48" rx="10" fill="url(#key)"/>
+    <rect x="238" y="250" width="48" height="48" rx="10" fill="url(#key)"/>
+    <rect x="298" y="250" width="48" height="48" rx="10" fill="url(#key)"/>
+    <rect x="160" y="310" width="192" height="44" rx="10" fill="url(#key)" opacity="0.7"/>
+  </g>
+</svg>

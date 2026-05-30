@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Typing Master by S-Corp — a premium touch-typing tutor featuring interactive coordinates, heatmaps, and a chapter-based curriculum."/>
+  <title>Typing Master · S-Corp Touch-Typing Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <!-- Consolidated Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-dark accent-violet cursor-line">
+
+  <!-- Core Visual Background Deck -->
+  <div class="bg-layer"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  
+  <!-- Animated ambient blurred orbs -->
+  <div class="bg-orb a"></div>
+  <div class="bg-orb b"></div>
+  <div class="bg-orb c"></div>
+
+  <!-- Celebratory particles canvas overlay -->
+  <canvas class="confetti hidden" id="confetti-canvas"></canvas>
+
+  <!-- Mounting Point -->
+  <div id="app"></div>
+
+  <!-- Consolidated scripts -->
+  <script src="data.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js" defer></script>
+</body>
+</html>

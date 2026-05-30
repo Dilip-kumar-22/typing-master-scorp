@@ -1,0 +1,28 @@
+{
+  "name": "Typing Master · S-Corp",
+  "short_name": "Typing Master",
+  "description": "Premium touch-typing tutor with interactive coordinates, heatmaps, and a chapter-based curriculum.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07071a",
+  "theme_color": "#07071a",
+  "categories": ["education", "productivity", "utilities"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    }
+  ]
+}

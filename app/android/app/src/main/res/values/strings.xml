@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Typing Master</string>
+    <string name="title_activity_main">Typing Master</string>
+    <string name="package_name">com.scorp.typingmaster</string>
+    <string name="custom_url_scheme">com.scorp.typingmaster</string>
+</resources>
