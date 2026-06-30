@@ -13,11 +13,18 @@ export default defineConfig({
   plugins: [
     preact(),
     VitePWA({
-      registerType: 'autoUpdate',
+      // 'prompt' (not 'autoUpdate'): when a new build is deployed we DON'T want
+      // to silently swap the SW — we surface a "new version — refresh" toast and
+      // let the user apply it (see src/lib/pwa.ts + registerSW usage). This makes
+      // updates visible instead of the old behavior where returning visitors
+      // were stuck on a stale cache until some future reload.
+      registerType: 'prompt',
+      // We register the SW ourselves (src/lib/pwa.ts) so we can hook the
+      // onNeedRefresh callback — so disable the plugin's auto-injected script.
+      injectRegister: null,
       // We already wrote our own manifest in public/ so VitePWA shouldn't
       // try to generate one — we just want the service worker.
       manifest: false,
-      injectRegister: 'auto',
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,webmanifest}'],
         // Cache Google Fonts (CSS + font files) for offline use.

@@ -102,11 +102,15 @@ export function SettingsDrawer() {
           </Row>
 
           <Row label={t('settingAccent')}>
-            <div class="swatch-row">
+            <div class="swatch-row" role="radiogroup" aria-label={t('settingAccent')}>
               {ACCENTS.map(a => (
-                <div
+                <button
+                  type="button"
                   class={'swatch' + (s.accent === a.id ? ' on' : '')}
                   style={{ background: a.c }}
+                  role="radio"
+                  aria-checked={s.accent === a.id}
+                  aria-label={a.id}
                   onClick={() => updateSetting('accent', a.id as Accent)}
                 />
               ))}
@@ -126,6 +130,7 @@ export function SettingsDrawer() {
           <Row label={t('settingFontSize')} value={s.fontSize + 'px'}>
             <input class="range" type="range" min="20" max="40" step="1"
               value={s.fontSize}
+              aria-label={`${t('settingFontSize')} (${s.fontSize}px)`}
               onInput={(e: Event) => updateSetting('fontSize', +(e.target as HTMLInputElement).value)} />
           </Row>
 
@@ -139,11 +144,12 @@ export function SettingsDrawer() {
 
           <Row label={t('settingSound')}>
             <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-              <div class={'switch' + (s.sound ? ' on' : '')} onClick={() => updateSetting('sound', !s.sound)} />
+              <Switch on={s.sound} onToggle={() => updateSetting('sound', !s.sound)} label={t('settingSound')} />
               <input
                 class="range" type="range" min="0" max="100" step="1"
                 value={s.volume * 100}
                 disabled={!s.sound}
+                aria-label={`${t('settingSound')} volume (${Math.round(s.volume * 100)}%)`}
                 style={{ flex: 1, marginLeft: 12, opacity: s.sound ? 1 : 0.4 }}
                 onInput={(e: Event) => updateSetting('volume', +(e.target as HTMLInputElement).value / 100)}
               />
@@ -177,13 +183,13 @@ export function SettingsDrawer() {
           </Row>
 
           <Row label={t('settingHlKeys')}>
-            <div class={'switch' + (s.hlKeys ? ' on' : '')} onClick={() => updateSetting('hlKeys', !s.hlKeys)} />
+            <Switch on={s.hlKeys} onToggle={() => updateSetting('hlKeys', !s.hlKeys)} label={t('settingHlKeys')} />
           </Row>
           <Row label={t('settingNextPreview')}>
-            <div class={'switch' + (s.nextPreview ? ' on' : '')} onClick={() => updateSetting('nextPreview', !s.nextPreview)} />
+            <Switch on={s.nextPreview} onToggle={() => updateSetting('nextPreview', !s.nextPreview)} label={t('settingNextPreview')} />
           </Row>
           <Row label={t('settingAutoAdvance')}>
-            <div class={'switch' + (s.autoAdvance ? ' on' : '')} onClick={() => updateSetting('autoAdvance', !s.autoAdvance)} />
+            <Switch on={s.autoAdvance} onToggle={() => updateSetting('autoAdvance', !s.autoAdvance)} label={t('settingAutoAdvance')} />
           </Row>
 
           <Row label={t('settingHistory')} value={t('settingHistoryCount', history.value.length)}>
@@ -214,6 +220,28 @@ function Row({ label, value, children }: { label: string; value?: string; childr
       </div>
       {children}
     </div>
+  );
+}
+
+/**
+ * Accessible on/off toggle. Replaces the old click-only <div class="switch">,
+ * which was invisible to keyboards and screen readers. Renders the SAME visual
+ * (.switch / .switch.on) but with role="switch", aria-checked, focusability,
+ * and Space/Enter activation. `label` becomes the accessible name.
+ */
+function Switch({ on, onToggle, label }: { on: boolean; onToggle(): void; label: string }) {
+  return (
+    <div
+      class={'switch' + (on ? ' on' : '')}
+      role="switch"
+      aria-checked={on}
+      aria-label={label}
+      tabIndex={0}
+      onClick={onToggle}
+      onKeyDown={(e: KeyboardEvent) => {
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); onToggle(); }
+      }}
+    />
   );
 }
 

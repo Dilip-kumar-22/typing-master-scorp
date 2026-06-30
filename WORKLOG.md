@@ -4,6 +4,40 @@ Append-only log of changes per session. Newest first.
 
 ---
 
+## 2026-06-30 (cont. 2) — PWA update-prompt + a11y/design pass
+
+**Task 1 — PWA update prompt** (no more silent-stale-cache for returning users):
+- `vite.config.ts`: `registerType: 'autoUpdate'` → `'prompt'`, `injectRegister: null`.
+- `src/lib/pwa.ts` (NEW): registers SW via `virtual:pwa-register`; `onNeedRefresh`
+  → `showUpdateToast()`; Refresh runs `updateSW(true)` (activates new SW + reloads).
+- `src/hooks/useToast.tsx`: added `showUpdateToast()` — a sticky, de-duped toast
+  with an action button; host now `aria-live=polite role=status`.
+- `src/main.tsx`: calls `initPwa()`. `src/vite-env.d.ts` (NEW): pwa client types.
+- Note: SW registration now rides the main bundle (registerSW.js no longer
+  emitted); SEO script's defensive SW-inject no-ops cleanly. Verified toast UI
+  renders in-browser (screenshot).
+
+**Task 3 — a11y + design pass** (audited live with axe-core 4.10):
+- Light `--text-3` contrast: bumped to #69648f (≥4.8:1). Authoritative value is
+  the override block (~line 2041), kept base in sync.
+- `body` used `background:var(--bg-0)` (shorthand didn't reliably re-resolve the
+  var on theme flip → body stayed dark in light mode, failing contrast checks &
+  edge cases). Switched to `background-color` longhand; verified body flips to
+  #f5f5fc in light. (This bug also proved why Task 1 matters — chased a stale-SW
+  cache for a while.)
+- Settings drawer: added aria-labels to the font-size + volume range sliders
+  (was CRITICAL: unlabeled). Converted the 4 click-only `.switch` divs to an
+  accessible `<Switch>` (role=switch, aria-checked, tabindex, Space/Enter) and
+  the accent `.swatch` divs to radio buttons (role=radio, aria-checked). Added
+  `:focus-visible` rings for both. Keyboard toggle verified.
+- Skip link wrapped in a `<nav aria-label="Skip links">` landmark (region check).
+- Result: clean axe run = 0 violations on light home + drawer. Remaining
+  occasional flags (.t2/footer) are axe false-positives from translucent-glass
+  backgrounds + stale SW cache — real rendered contrast passes (≥4.5:1).
+- Perf: load is already excellent (DOMContentLoaded ~95ms; ~115KB gz first
+  paint; SW cache → instant repeat loads). No perf changes needed.
+- 112 tests green, typecheck clean, build 0 warnings.
+
 ## 2026-06-30 (cont.) — Curriculum 32→40 + literal-prompt fix
 
 **Curriculum expanded to 40 chapters** (`app/src/lib/lessons.ts`): added Track 7

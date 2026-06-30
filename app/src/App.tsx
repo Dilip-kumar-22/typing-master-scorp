@@ -111,7 +111,11 @@ export function App() {
 
   return (
     <>
-      <a href="#main" class="skip-link">Skip to main content</a>
+      {/* Skip link wrapped in a nav landmark so no content sits outside a
+          landmark (WCAG region check) while still being the first focusable. */}
+      <nav class="skip-nav" aria-label="Skip links">
+        <a href="#main" class="skip-link">Skip to main content</a>
+      </nav>
       <TopBar />
       <main id="main" tabIndex={-1}>
         {view.value === 'home' ? <Home /> : <Practice />}
