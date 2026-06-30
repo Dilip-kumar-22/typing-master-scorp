@@ -49,6 +49,7 @@ yarn-error.log*
 # ───────── Editor / OS junk ─────────
 .vscode/
 .idea/
+.claude/          # local Claude Code tooling (launch.json etc.) — machine-specific
 *.swp
 .DS_Store
 Thumbs.db

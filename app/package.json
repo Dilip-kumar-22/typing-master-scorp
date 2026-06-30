@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b --noEmit && vite build && node scripts/build-seo.mjs",
+    "build:pages": "tsc -b --noEmit && vite build --base=/typing-master-scorp/ && node scripts/build-seo.mjs",
     "preview": "vite preview",
+    "preview:pages": "vite preview --base=/typing-master-scorp/",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc -b --noEmit",

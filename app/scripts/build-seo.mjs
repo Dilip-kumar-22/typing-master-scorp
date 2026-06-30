@@ -20,10 +20,28 @@ const ROOT = join(__dirname, '..');
 const DIST = join(ROOT, 'dist');
 
 // ─── CONFIG ────────────────────────────────────────────────
-// Replace this with your real production URL before deploy.
+// Replace this with your real production URL before deploy. For GitHub Pages
+// this is just the ORIGIN (e.g. https://dilip-kumar-22.github.io); the subpath
+// is handled by BASE below.
 const SITE = process.env.SITE_URL || 'https://typingmaster.example.com';
 const APP_NAME = 'Typing Master · S-Corp';
 const APP_DESC = 'Premium touch-typing tutor with a 32-chapter curriculum, keybr-style adaptive learning, real-time multiplayer, and a 3D mechanical-keyboard heatmap. Free to use, no signup required.';
+
+// Pull out the SPA-built CSS/JS asset filenames so the landing pages share the
+// same bundle. The regex is base-agnostic (`[^"]*` before /assets/) so it works
+// whether the build used base '/' or a GitHub Pages subpath.
+const spaHtml = readFileSync(join(DIST, 'index.html'), 'utf8');
+const cssMatch = spaHtml.match(/href="([^"]*\/assets\/index-[^"]+\.css)"/);
+const jsMatch  = spaHtml.match(/src="([^"]*\/assets\/index-[^"]+\.js)"/);
+const CSS_HREF = cssMatch?.[1] || '/assets/index.css';
+const JS_SRC   = jsMatch?.[1]  || '/assets/index.js';
+
+// Derive the public BASE path straight from Vite's own output (the asset href
+// above), so the SEO pages always agree with the actual bundle. This is the
+// single source of truth — no env var, immune to Git-Bash/Windows path
+// mangling. '/' for root deploys, '/typing-master-scorp/' for GH Pages.
+const baseMatch = (CSS_HREF || JS_SRC).match(/^(.*\/)assets\//);
+const BASE = baseMatch ? baseMatch[1] : '/';
 
 // ─── HELPERS ───────────────────────────────────────────────
 function ensureDir(p) { mkdirSync(p, { recursive: true }); }
@@ -33,19 +51,18 @@ function esc(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-// Pull out the existing SPA-built CSS/JS asset filenames so the landing pages
-// share the same bundle.
-const spaHtml = readFileSync(join(DIST, 'index.html'), 'utf8');
-const cssMatch = spaHtml.match(/href="(\/assets\/index-[^"]+\.css)"/);
-const jsMatch  = spaHtml.match(/src="(\/assets\/index-[^"]+\.js)"/);
-const CSS_HREF = cssMatch?.[1] || '/assets/index.css';
-const JS_SRC   = jsMatch?.[1]  || '/assets/index.js';
+// Turn an internal absolute path ('/', '/lessons/', '/?lesson=x') into a
+// base-aware href. With BASE='/' it's an identity; with a subpath it prefixes.
+function href(p) {
+  if (p === '/') return BASE;
+  return BASE.replace(/\/$/, '') + p;
+}
 
 function pageShell({ path, title, description, ogType = 'website', schema, body, deepLink }) {
-  const url = SITE + path;
-  const ogImg = SITE + '/icon.svg';
+  const url = SITE + href(path);
+  const ogImg = SITE + href('/icon.svg');
   const canonical = url;
-  const cta = deepLink ? `<a class="seo-cta" href="${esc(deepLink)}">Start practicing →</a>` : '';
+  const cta = deepLink ? `<a class="seo-cta" href="${esc(href(deepLink))}">Start practicing →</a>` : '';
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,8 +90,8 @@ function pageShell({ path, title, description, ogType = 'website', schema, body,
 
   ${schema ? `<script type="application/ld+json">${JSON.stringify(schema)}</script>` : ''}
 
-  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="${esc(href('/icon.svg'))}" type="image/svg+xml" />
+  <link rel="manifest" href="${esc(href('/manifest.webmanifest'))}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -97,7 +114,7 @@ function pageShell({ path, title, description, ogType = 'website', schema, body,
     ${body}
     ${cta}
     <nav class="seo-foot">
-      <a href="/">Home</a> · <a href="/lessons/">All lessons</a> · <a href="/adaptive/">Adaptive</a> · <a href="/challenges/">Challenges</a>
+      <a href="${esc(href('/'))}">Home</a> · <a href="${esc(href('/lessons/'))}">All lessons</a> · <a href="${esc(href('/adaptive/'))}">Adaptive</a> · <a href="${esc(href('/challenges/'))}">Challenges</a>
     </nav>
   </main>
 
@@ -131,7 +148,7 @@ function lessonPage(lesson, index) {
     isAccessibleForFree: true,
   };
   const body = `
-    <a class="seo-eyebrow" href="/lessons/">← All lessons</a>
+    <a class="seo-eyebrow" href="${esc(href('/lessons/'))}">← All lessons</a>
     <h1>${esc(lesson.title)}</h1>
     <p class="seo-sub">${esc(lesson.subtitle)} · Active keys: <code>${esc(lesson.keys.replace(/ /g, '␣'))}</code></p>
     <div class="seo-body">${guideHtml}${tipHtml}</div>`;
@@ -144,7 +161,7 @@ function lessonsIndexPage() {
   const description = 'A free 32-chapter touch-typing curriculum: home row, top row, bottom row, capitals, numbers, symbols, and speed drills. Each lesson includes a guided tutorial and live finger heatmaps.';
   const items = LESSONS.map((l, i) => `
     <li>
-      <a href="/lessons/chapter-${i + 1}/">
+      <a href="${esc(href(`/lessons/chapter-${i + 1}/`))}">
         <strong>${esc(l.title)}</strong>
         <span class="seo-meta">${esc(l.subtitle)} · keys: ${esc(l.keys.trim()) || '—'}</span>
       </a>
@@ -156,7 +173,7 @@ function lessonsIndexPage() {
       '@type': 'ListItem',
       position: i + 1,
       name: l.title,
-      url: `${SITE}/lessons/chapter-${i + 1}/`,
+      url: SITE + href(`/lessons/chapter-${i + 1}/`),
     })),
   };
   const body = `
@@ -234,9 +251,9 @@ function homePage() {
     <h1>Train your fingers. Sharpen your mind.</h1>
     <p class="seo-sub">Free interactive touch-typing tutor with a 32-chapter curriculum, keybr-style adaptive learning, real-time multiplayer races, and a 3D mechanical-keyboard heatmap.</p>
     <ul class="seo-list">
-      <li><a href="/lessons/"><strong>32-chapter curriculum</strong></a> — home row → top row → bottom row → capitals → numbers → symbols → speed drills</li>
-      <li><a href="/adaptive/"><strong>Adaptive practice</strong></a> — letters unlock as you master them, keybr.com style</li>
-      <li><a href="/challenges/"><strong>Challenges</strong></a> — daily runs, paragraphs, code drills</li>
+      <li><a href="${esc(href('/lessons/'))}"><strong>32-chapter curriculum</strong></a> — home row → top row → bottom row → capitals → numbers → symbols → speed drills</li>
+      <li><a href="${esc(href('/adaptive/'))}"><strong>Adaptive practice</strong></a> — letters unlock as you master them, keybr.com style</li>
+      <li><a href="${esc(href('/challenges/'))}"><strong>Challenges</strong></a> — daily runs, paragraphs, code drills</li>
       <li><strong>3D keyboard heatmap</strong> — see which keys you hit most and which you miss</li>
       <li><strong>Real-time multiplayer races</strong> — head-to-head WPM with friends via room codes</li>
       <li><strong>Cloud sync + leaderboard</strong> (optional) — sign in to back up progress and climb the global board</li>
@@ -277,7 +294,7 @@ for (const p of pages) {
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${pages.map(p => `  <url>
-    <loc>${SITE}${p.path}</loc>
+    <loc>${SITE}${href(p.path)}</loc>
     <changefreq>${p.path === '/' ? 'weekly' : 'monthly'}</changefreq>
     <priority>${p.path === '/' ? '1.0' : '0.7'}</priority>
   </url>`).join('\n')}
@@ -288,9 +305,49 @@ writeFileSync(join(DIST, 'sitemap.xml'), sitemap, 'utf8');
 // robots.txt ──────────────────────────────────────────────
 writeFileSync(join(DIST, 'robots.txt'), `User-agent: *
 Allow: /
-Disallow: /assets/
-Sitemap: ${SITE}/sitemap.xml
+Disallow: ${href('/assets/')}
+Sitemap: ${SITE}${href('/sitemap.xml')}
 `, 'utf8');
 
+// ─── DEPLOY-TARGET FIXUPS ─────────────────────────────────
+// These make the build work on GitHub Pages (and are harmless at root).
+
+// 1. Rewrite the PWA manifest's start_url/scope/icons to the BASE so the
+//    installed app launches correctly under a subpath. The manifest in public/
+//    is authored for root; here we patch the COPY in dist/.
+try {
+  const manifestPath = join(DIST, 'manifest.webmanifest');
+  const m = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  m.start_url = href('/');
+  m.scope = href('/');
+  if (Array.isArray(m.icons)) {
+    m.icons = m.icons.map(ic => ({ ...ic, src: ic.src.startsWith('http') ? ic.src : href(ic.src.replace(/^\//, '/')) }));
+  }
+  writeFileSync(manifestPath, JSON.stringify(m, null, 2), 'utf8');
+} catch (e) {
+  console.warn('  ! Could not patch manifest for BASE:', e.message);
+}
+
+// 2. SPA fallback for client-side deep links on GitHub Pages. Pages serves
+//    404.html for unknown paths; copying index.html there makes refreshes /
+//    direct visits to in-app routes load the SPA instead of a 404. (We ship the
+//    home shell, which boots the SPA and reads any ?query deep-link.)
+try {
+  copyFileSync(join(DIST, 'index.html'), join(DIST, '404.html'));
+} catch (e) {
+  console.warn('  ! Could not write 404.html fallback:', e.message);
+}
+
+// 3. .nojekyll — stop GitHub Pages' Jekyll from ignoring files/dirs that start
+//    with an underscore (Vite can emit such asset names) and from any
+//    unexpected processing. A zero-byte marker file is all that's needed.
+try {
+  writeFileSync(join(DIST, '.nojekyll'), '', 'utf8');
+} catch (e) {
+  console.warn('  ! Could not write .nojekyll:', e.message);
+}
+
 console.log(`✓ Wrote ${pages.length} SEO pages + sitemap.xml + robots.txt`);
+console.log(`  Base path: ${BASE}`);
 console.log(`  Site URL: ${SITE} (override with SITE_URL env var)`);
+console.log(`  + manifest patched, 404.html fallback, .nojekyll`);

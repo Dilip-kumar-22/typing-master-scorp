@@ -3,6 +3,13 @@ import preact from '@preact/preset-vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  // Base public path defaults to '/' (local dev, custom domains, APK/native —
+  // Capacitor serves from the WebView root). For GitHub Pages PROJECT sites the
+  // app lives under a subpath, so the build is invoked with
+  // `vite build --base=/typing-master-scorp/` (see the build:pages npm script).
+  // We use Vite's native --base CLI flag rather than reading an env var here:
+  // on Git-Bash/Windows a leading-slash env value gets path-mangled to
+  // C:/Program Files/Git/... — the CLI flag sidesteps that entirely.
   plugins: [
     preact(),
     VitePWA({

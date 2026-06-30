@@ -4,7 +4,7 @@
 // Each piece of state is its own signal — components only re-render when
 // the signals they actually read change. This is the speed win Phase 2 buys.
 
-import { signal, computed, batch } from '@preact/signals';
+import { signal, computed, batch, effect } from '@preact/signals';
 import type {
   Settings,
   View,
@@ -466,8 +466,12 @@ export function applyVisualSettings(): void {
   const root = document.documentElement;
   const s = settings.value;
 
+  const prefersLight =
+    typeof window !== 'undefined' && window.matchMedia
+      ? window.matchMedia('(prefers-color-scheme: light)').matches
+      : false;
   let activeTheme: 'light' | 'dark' = s.theme === 'auto'
-    ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+    ? (prefersLight ? 'light' : 'dark')
     : s.theme;
   document.body.className = `theme-${activeTheme} accent-${s.accent} cursor-${s.cursor}`;
 
@@ -495,7 +499,24 @@ export function applyVisualSettings(): void {
   root.style.setProperty('--accent-gradient', c.gradient);
 }
 
-// Wire the auto-theme listener once.
+// Re-apply theme / accent / font / font-size / cursor whenever ANY settings
+// field changes. This is the reactive glue that makes the theme toggle and the
+// settings drawer update the page LIVE. Before this, applyVisualSettings() ran
+// only on mount, so visual changes were persisted but silently needed a reload
+// to show up — which read as "the theme/settings tab doesn't work".
+// effect() also runs once immediately, covering the initial paint.
+// Guarded by `document` so it stays a no-op during the Node SEO build / SSR.
+if (typeof document !== 'undefined') {
+  effect(() => {
+    // Read settings.value so this effect re-runs on every settings change.
+    void settings.value;
+    applyVisualSettings();
+  });
+}
+
+// Wire the auto-theme listener once: when the OS flips light/dark and the user
+// is on theme:'auto', repaint. (The effect above doesn't cover this because the
+// OS preference isn't part of the settings signal.)
 if (typeof window !== 'undefined' && window.matchMedia) {
   window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
     if (settings.value.theme === 'auto') applyVisualSettings();

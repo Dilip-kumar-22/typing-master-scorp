@@ -1,0 +1,75 @@
+name: Deploy PWA to GitHub Pages
+
+# Builds the Preact PWA and publishes it to GitHub Pages, so anyone can open
+# the live URL and click "Install" to add Typing Master to their desktop or
+# phone like a native app (works offline, saves progress locally).
+#
+# Live URL after the first successful run + enabling Pages:
+#   https://dilip-kumar-22.github.io/typing-master-scorp/
+#
+# One-time setup (GitHub website): repo → Settings → Pages →
+#   "Build and deployment" → Source → "GitHub Actions".
+# Then every push to main re-deploys automatically.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch: {}
+
+# Permissions the Pages deploy needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment; don't cancel an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build PWA (subpath base)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for Pages (base=/typing-master-scorp/)
+        run: npm run build:pages
+        env:
+          # Origin only — the subpath is added by the build's BASE handling.
+          SITE_URL: https://dilip-kumar-22.github.io
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: app/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
