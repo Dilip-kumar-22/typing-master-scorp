@@ -36,6 +36,14 @@ const jsMatch  = spaHtml.match(/src="([^"]*\/assets\/index-[^"]+\.js)"/);
 const CSS_HREF = cssMatch?.[1] || '/assets/index.css';
 const JS_SRC   = jsMatch?.[1]  || '/assets/index.js';
 
+// vite-plugin-pwa injects a <script src=".../registerSW.js"> into the SPA
+// index.html. We rebuild index.html (and every SEO sub-page) from scratch
+// below, so we must carry that registration script over — otherwise the
+// service worker never registers on the deployed site and the PWA is NOT
+// installable / offline-capable. Pull whatever path vite emitted (base-aware).
+const swRegMatch = spaHtml.match(/src="([^"]*registerSW\.js)"/);
+const SW_REG_SRC = swRegMatch?.[1] || null;
+
 // Derive the public BASE path straight from Vite's own output (the asset href
 // above), so the SEO pages always agree with the actual bundle. This is the
 // single source of truth — no env var, immune to Git-Bash/Windows path
@@ -99,6 +107,8 @@ function pageShell({ path, title, description, ogType = 'website', schema, body,
 
   <!-- Hand-off the deep-link to the SPA bundle via the page URL ?lesson= param. -->
   <script type="module" src="${esc(JS_SRC)}"></script>
+  ${SW_REG_SRC ? `<!-- PWA service-worker registration (carried over from vite-plugin-pwa) -->
+  <script src="${esc(SW_REG_SRC)}"></script>` : ''}
 </head>
 <body class="theme-dark accent-violet cursor-line">
   <div class="bg-layer"></div>
