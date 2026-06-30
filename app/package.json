@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b --noEmit && vite build && node scripts/build-seo.mjs",
-    "build:pages": "tsc -b --noEmit && vite build --base=/typing-master-scorp/ && node scripts/build-seo.mjs",
+    "gen:lessons": "node scripts/gen-lessons-cjs.mjs",
+    "build": "tsc -b --noEmit && vite build && node scripts/gen-lessons-cjs.mjs && node scripts/build-seo.mjs",
+    "build:pages": "tsc -b --noEmit && vite build --base=/typing-master-scorp/ && node scripts/gen-lessons-cjs.mjs && node scripts/build-seo.mjs",
     "preview": "vite preview",
     "preview:pages": "vite preview --base=/typing-master-scorp/",
     "test": "vitest run",

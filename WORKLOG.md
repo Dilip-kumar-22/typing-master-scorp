@@ -4,6 +4,34 @@ Append-only log of changes per session. Newest first.
 
 ---
 
+## 2026-06-30 (cont.) — Curriculum 32→40 + literal-prompt fix
+
+**Curriculum expanded to 40 chapters** (`app/src/lib/lessons.ts`): added Track 7
+"Fluency & Mastery" — Ch33 Double Letters, 34 Everyday Words, 35 Capitalization
+in Context, 36 Numbers in the Wild, 37 Symbols & Email, 38 Longer Words, 39
+Quotes & Wisdom, 40 The Final Sprint. Each has guide (≥2 paras) + tip; titles
+follow the `Chapter N:` sequence the tests enforce.
+
+**Found + fixed a real pre-existing bug:** every lesson built its prompt by
+flattening `pool` into a CHARACTER SET and generating random words — so the
+sentence/word lessons (8,14,20,23,26-32 + the new ones) rendered as random
+letter-soup (e.g. Ch20 pangram showed "pz.lcd opq jxu…"). Verified in-browser.
+Fix: added `literal?: boolean` to the Lesson type (`types.ts`); `buildLiteralPrompt()`
+in `data.ts` (picks sentences verbatim / concatenates word entries); store
+`restart()` + `pickMode()` branch on `literal`. Marked the 18 real-text lessons
+literal. Now Ch20 → "the quick brown fox…", Ch40 → 'She asked, "Can you finish
+all 40 chapters?"'. Screenshot-confirmed.
+
+**Drift-proofing:** `scripts/build-seo.mjs` imported a HAND-MAINTAINED mirror
+(`lessons-cjs.mjs`) that was stale (still 32). Added `scripts/gen-lessons-cjs.mjs`
+(esbuild-bundles the TS source → regenerates the mirror, guides included) and
+wired it into `build`/`build:pages` so it can never drift again.
+
+**Copy + tests:** "32"→"40" across build-seo.mjs, PricingPanel, README, lessons
+header. Tests: +5 buildLiteralPrompt + Track-7 integrity + ≥40 floor → 112 total,
+all green. Build: 45 SEO pages, 0 warnings. Fixed `.gitignore` `.claude/` rule
+(had an invalid same-line comment).
+
 ## 2026-06-30 — Fix Settings/Theme tabs + hosted-PWA install path
 
 **Bug fix — live visual settings (Settings + Theme tabs were "not working"):**

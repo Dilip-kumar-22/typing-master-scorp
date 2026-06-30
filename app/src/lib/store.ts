@@ -15,7 +15,7 @@ import type {
   SessionResult,
   PersistedStore,
 } from './types';
-import { LESSONS, buildPrompt, generateFromCustomKeys } from './data';
+import { LESSONS, buildPrompt, generateFromCustomKeys, buildLiteralPrompt } from './data';
 import { SynthAudio } from './audio';
 import { computeMetrics } from './metrics';
 import { pushSession, pushProgress, pullAll, mergeSessions, unionStrings } from './sync';
@@ -224,7 +224,9 @@ export function restart(): void {
   } else if (m.id === 'custom-set') {
     next = generateFromCustomKeys(customKeys.value, settings.value.promptLength);
   } else if ('instructions' in m) {
-    next = generateFromCustomKeys(new Set(m.pool.join('').split('')), settings.value.promptLength);
+    next = m.literal
+      ? buildLiteralPrompt(m.pool, settings.value.promptLength)
+      : generateFromCustomKeys(new Set(m.pool.join('').split('')), settings.value.promptLength);
   } else {
     next = buildPrompt(m, settings.value.promptLength);
   }
@@ -255,7 +257,10 @@ export function pickMode(m: Mode): void {
   } else if (m.id === 'adaptive') {
     next = generateRound(keybrState.value, { words: 12 });
   } else if (isLesson) {
-    next = generateFromCustomKeys(new Set((m as { pool: string[] }).pool.join('').split('')), settings.value.promptLength);
+    const lesson = m as { pool: string[]; literal?: boolean };
+    next = lesson.literal
+      ? buildLiteralPrompt(lesson.pool, settings.value.promptLength)
+      : generateFromCustomKeys(new Set(lesson.pool.join('').split('')), settings.value.promptLength);
   } else {
     next = buildPrompt(m, settings.value.promptLength);
   }

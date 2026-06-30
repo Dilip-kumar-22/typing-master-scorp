@@ -15,7 +15,7 @@ anyone can run it on a laptop or phone with all progress saved on-device.
 
 ## ✨ Features
 
-- **32-chapter curriculum** — home row → top/bottom rows → capitals → numbers →
+- **40-chapter curriculum** — home row → top/bottom rows → capitals → numbers →
   symbols → speed drills, each with a guided tutorial.
 - **Adaptive mode** — keybr.com-style: letters unlock as you hit your target
   WPM, weighting practice toward your weakest keys.

@@ -25,7 +25,7 @@ const DIST = join(ROOT, 'dist');
 // is handled by BASE below.
 const SITE = process.env.SITE_URL || 'https://typingmaster.example.com';
 const APP_NAME = 'Typing Master · S-Corp';
-const APP_DESC = 'Premium touch-typing tutor with a 32-chapter curriculum, keybr-style adaptive learning, real-time multiplayer, and a 3D mechanical-keyboard heatmap. Free to use, no signup required.';
+const APP_DESC = 'Premium touch-typing tutor with a 40-chapter curriculum, keybr-style adaptive learning, real-time multiplayer, and a 3D mechanical-keyboard heatmap. Free to use, no signup required.';
 
 // Pull out the SPA-built CSS/JS asset filenames so the landing pages share the
 // same bundle. The regex is base-agnostic (`[^"]*` before /assets/) so it works
@@ -167,8 +167,8 @@ function lessonPage(lesson, index) {
 
 function lessonsIndexPage() {
   const path = '/lessons/';
-  const title = `All 32 lessons — ${APP_NAME}`;
-  const description = 'A free 32-chapter touch-typing curriculum: home row, top row, bottom row, capitals, numbers, symbols, and speed drills. Each lesson includes a guided tutorial and live finger heatmaps.';
+  const title = `All 40 lessons — ${APP_NAME}`;
+  const description = 'A free 40-chapter touch-typing curriculum: home row, top row, bottom row, capitals, numbers, symbols, speed drills, and real-world fluency. Each lesson includes a guided tutorial and live finger heatmaps.';
   const items = LESSONS.map((l, i) => `
     <li>
       <a href="${esc(href(`/lessons/chapter-${i + 1}/`))}">
@@ -188,7 +188,7 @@ function lessonsIndexPage() {
   };
   const body = `
     <h1>The full touch-typing curriculum</h1>
-    <p class="seo-sub">32 chapters, ordered for progressive muscle-memory build-up. Free, no signup, works offline after install.</p>
+    <p class="seo-sub">40 chapters, ordered for progressive muscle-memory build-up. Free, no signup, works offline after install.</p>
     <ul class="seo-list">${items}</ul>`;
   return { path, html: pageShell({ path, title, description, schema, body, deepLink: '/' }) };
 }
@@ -208,7 +208,7 @@ function adaptivePage() {
 function pricingPage() {
   const path = '/pricing/';
   const title = `Pricing — Free, Pro, and Team plans · ${APP_NAME}`;
-  const description = 'Free forever for the core 32-chapter curriculum, adaptive learning, and multiplayer. Pro ($5/mo) unlocks custom paragraph paste, advanced analytics, and unlimited room size. Team plans for classrooms and companies.';
+  const description = 'Free forever for the core 40-chapter curriculum, adaptive learning, and multiplayer. Pro ($5/mo) unlocks custom paragraph paste, advanced analytics, and unlimited room size. Team plans for classrooms and companies.';
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -222,9 +222,9 @@ function pricingPage() {
   };
   const body = `
     <h1>Simple pricing. Free forever for the core.</h1>
-    <p class="seo-sub">Use the full 32-chapter curriculum, adaptive learning, and multiplayer at no cost. Upgrade when you want power-user features.</p>
+    <p class="seo-sub">Use the full 40-chapter curriculum, adaptive learning, and multiplayer at no cost. Upgrade when you want power-user features.</p>
     <ul class="seo-list">
-      <li><strong>Free — $0</strong>: 32-chapter curriculum, adaptive learning, multiplayer (up to 2 players), local progress + optional cloud sync.</li>
+      <li><strong>Free — $0</strong>: 40-chapter curriculum, adaptive learning, multiplayer (up to 2 players), local progress + optional cloud sync.</li>
       <li><strong>Pro — $5/mo or $50/yr</strong>: Everything in Free + custom paragraph paste, advanced per-key analytics, unlimited multiplayer room size, premium themes.</li>
       <li><strong>Team — $3/seat/mo (min 10)</strong>: Everything in Pro + teacher dashboard, class leaderboards, bulk seat management, priority support.</li>
     </ul>`;
@@ -259,9 +259,9 @@ function homePage() {
   };
   const body = `
     <h1>Train your fingers. Sharpen your mind.</h1>
-    <p class="seo-sub">Free interactive touch-typing tutor with a 32-chapter curriculum, keybr-style adaptive learning, real-time multiplayer races, and a 3D mechanical-keyboard heatmap.</p>
+    <p class="seo-sub">Free interactive touch-typing tutor with a 40-chapter curriculum, keybr-style adaptive learning, real-time multiplayer races, and a 3D mechanical-keyboard heatmap.</p>
     <ul class="seo-list">
-      <li><a href="${esc(href('/lessons/'))}"><strong>32-chapter curriculum</strong></a> — home row → top row → bottom row → capitals → numbers → symbols → speed drills</li>
+      <li><a href="${esc(href('/lessons/'))}"><strong>40-chapter curriculum</strong></a> — home row → top row → bottom row → capitals → numbers → symbols → speed drills</li>
       <li><a href="${esc(href('/adaptive/'))}"><strong>Adaptive practice</strong></a> — letters unlock as you master them, keybr.com style</li>
       <li><a href="${esc(href('/challenges/'))}"><strong>Challenges</strong></a> — daily runs, paragraphs, code drills</li>
       <li><strong>3D keyboard heatmap</strong> — see which keys you hit most and which you miss</li>

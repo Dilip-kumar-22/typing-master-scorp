@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  buildPrompt, generateFromCustomKeys,
+  buildPrompt, generateFromCustomKeys, buildLiteralPrompt,
   LESSONS, CHALLENGES, SENTENCES,
 } from '../src/lib/data';
 
@@ -56,6 +56,41 @@ describe('generateFromCustomKeys', () => {
   });
 });
 
+describe('buildLiteralPrompt — fluency/sentence lessons use real text', () => {
+  it('returns a sentence entry verbatim when the pool has sentences', () => {
+    const pool = ['The sun rose over the hills.', 'We can finish this today.'];
+    const out = buildLiteralPrompt(pool, 20);
+    expect(pool).toContain(out);
+  });
+
+  it('concatenates short word entries up to the target word count', () => {
+    const out = buildLiteralPrompt(['fall', 'pass', 'tree'], 10);
+    const words = out.split(' ').filter(Boolean);
+    expect(words.length).toBeGreaterThanOrEqual(10);
+    for (const w of words) expect(['fall', 'pass', 'tree']).toContain(w);
+  });
+
+  it('never produces random-letter soup (output chars come from the pool)', () => {
+    const pool = ['coffee', 'butter', 'green'];
+    const out = buildLiteralPrompt(pool, 8);
+    // every non-space run must be one of the real words
+    for (const w of out.split(' ').filter(Boolean)) expect(pool).toContain(w);
+  });
+
+  it('empty pool returns empty string (no crash)', () => {
+    expect(buildLiteralPrompt([], 10)).toBe('');
+  });
+
+  it('literal lessons render real words, not scrambled characters', () => {
+    // Regression: lessons with real-word pools must be flagged literal so the
+    // store renders them verbatim instead of flattening to a char set.
+    const ch40 = LESSONS.find(l => l.id === 'lesson-40')!;
+    expect(ch40.literal).toBe(true);
+    const out = buildLiteralPrompt(ch40.pool, 20);
+    expect(ch40.pool).toContain(out); // a whole sentence, verbatim
+  });
+});
+
 describe('LESSONS — curriculum data integrity', () => {
   it('every lesson has id/title/subtitle/instructions/keys/pool', () => {
     for (const l of LESSONS) {
@@ -83,9 +118,27 @@ describe('LESSONS — curriculum data integrity', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it('curriculum is at least 32 chapters', () => {
-    // Phase-4 follow-up expanded the curriculum from 10 → 32 lessons.
-    expect(LESSONS.length).toBeGreaterThanOrEqual(32);
+  it('curriculum is at least 40 chapters', () => {
+    // Phase-4 expanded 10 → 32; a later session added Track 7 (33–40).
+    expect(LESSONS.length).toBeGreaterThanOrEqual(40);
+  });
+
+  it('new Track-7 lessons (33–40) have well-formed prompt pools', () => {
+    // Track 7 lessons use `keys` as a focus set (like lessons 9+), so pools are
+    // NOT key-bounded. We just assert each new pool entry is a non-empty string
+    // and the pools are reasonably sized — guards against an empty/blank prompt
+    // slipping into the freshly-added chapters.
+    const track7 = LESSONS.filter(l => {
+      const n = parseInt(l.id.replace('lesson-', ''), 10);
+      return n >= 33 && n <= 40;
+    });
+    expect(track7.length).toBe(8);
+    for (const l of track7) {
+      expect(l.pool.length).toBeGreaterThanOrEqual(6);
+      for (const p of l.pool) {
+        expect(typeof p === 'string' && p.trim().length > 0).toBe(true);
+      }
+    }
   });
 
   it('every lesson has a multi-paragraph guide', () => {

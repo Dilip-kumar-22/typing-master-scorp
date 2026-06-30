@@ -33,7 +33,7 @@ export function PricingPanel() {
       id: 'free', name: 'Free', price: '$0', sub: 'forever, no card',
       tone: 'tone-cyan',
       bullets: [
-        '32-chapter curriculum',
+        '40-chapter curriculum',
         'Adaptive learning (keybr-style)',
         'Local-only progress + sync to cloud',
         '3D keyboard heatmap',

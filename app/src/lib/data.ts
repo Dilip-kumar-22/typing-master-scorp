@@ -157,6 +157,33 @@ export function buildPrompt(modeItem: Mode | null, length = 40): string {
   return out.join(' ');
 }
 
+/**
+ * Build a prompt from a pool of REAL words/sentences, used verbatim. Single
+ * entries that are already sentences are returned as-is; short word/phrase
+ * entries are concatenated (shuffled) until the prompt reaches ~`targetWords`
+ * words. This is the `literal: true` path for fluency lessons + pangrams, so
+ * learners type actual text instead of random-letter soup.
+ */
+export function buildLiteralPrompt(pool: string[], targetWords = 20): string {
+  if (!pool.length) return '';
+  // If any entry is itself a full sentence (has a space and ends like prose),
+  // pick ONE entry verbatim — these are meant to be typed whole.
+  const looksLikeSentence = (s: string) => /[.?!:]/.test(s) || s.split(' ').length >= 5;
+  const sentenceEntries = pool.filter(looksLikeSentence);
+  if (sentenceEntries.length) {
+    return sentenceEntries[Math.floor(Math.random() * sentenceEntries.length)];
+  }
+  // Otherwise concatenate shorter word/phrase entries (shuffled) up to the
+  // requested word count.
+  const out: string[] = [];
+  let guard = 0;
+  while (out.join(' ').split(' ').filter(Boolean).length < targetWords && guard < 1000) {
+    out.push(pool[Math.floor(Math.random() * pool.length)]);
+    guard++;
+  }
+  return out.join(' ').trim();
+}
+
 export function generateFromCustomKeys(keys: Iterable<string>, length = 40): string {
   const all = [...keys];
   const letters = all.filter(c => !SPECIALS.has(c));

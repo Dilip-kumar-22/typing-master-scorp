@@ -1,4 +1,4 @@
-// The full 32-chapter touch-typing curriculum.
+// The full 40-chapter touch-typing curriculum.
 // Each chapter has a one-line `instructions` summary (shown on the Home grid),
 // a multi-paragraph `guide` (shown in the TutorialCard before practice starts),
 // an optional `tip` (pro-tip callout at the bottom of the guide),
@@ -88,6 +88,7 @@ export const LESSONS: Lesson[] = [
       'For this chapter, every key your fingers need is already under your fingers. There is no excuse to look at the keyboard. Trust the bumps on F and J. They will guide you home every time.',
     ],
     keys: 'asdfjkl; ',
+    literal: true,
     pool: ['ask', 'dad', 'sad', 'lad', 'add', 'salad', 'lash', 'asks', 'glass', 'fall', 'halls', 'flask', 'lass', 'sass', 'flags'],
   },
   {
@@ -115,6 +116,7 @@ export const LESSONS: Lesson[] = [
       'After this chapter, the next eight lessons add the top row — R, U, E, I, T, Y, W, O, Q, P. The home row will still be your base of operations. Always return.',
     ],
     keys: 'asdfghjkl; ',
+    literal: true,
     pool: ['ask dad', 'a sad lad', 'flash a flag', 'glass jar', 'half a salad', 'all hands', 'as a flash', 'all fall'],
   },
 
@@ -196,6 +198,7 @@ export const LESSONS: Lesson[] = [
       'After this chapter we drop to the bottom row: V, N, C, M, X, comma, Z, period, B, slash.',
     ],
     keys: 'qwertyuiopasdfghjkl; ',
+    literal: true,
     pool: ['the quiet typist', 'a sequel awaits', 'play out the request', 'wire up your fingers', 'happy work is true', 'sleep is for the weak'],
   },
 
@@ -275,6 +278,7 @@ export const LESSONS: Lesson[] = [
       'Next track: Shift + capitals.',
     ],
     keys: 'abcdefghijklmnopqrstuvwxyz, .',
+    literal: true,
     pool: [
       'the quick brown fox jumps over the lazy dog.',
       'pack my box with five dozen liquor jugs.',
@@ -298,6 +302,7 @@ export const LESSONS: Lesson[] = [
     ],
     tip: 'Left pinky holds Shift while left hand stays anchored on A. The right hand types the letter. Two hands, two roles.',
     keys: 'asdfghjkl;',
+    literal: true,
     pool: ['Hi', 'Hello', 'Yes', 'No', 'Pass', 'Jump', 'Look', 'Hill', 'Pop', 'Up'],
   },
   {
@@ -311,6 +316,7 @@ export const LESSONS: Lesson[] = [
       'It feels awkward at first. The investment pays off massively. Shift-on-the-wrong-side typists max out around 50 WPM. Shift-on-the-correct-side typists pass 100 WPM easily.',
     ],
     keys: 'asdfghjkl;',
+    literal: true,
     pool: ['Cat', 'Dog', 'Red', 'Big', 'Bag', 'Far', 'Fast', 'Quiet', 'Easy', 'Adventure', 'Vast'],
   },
   {
@@ -324,6 +330,7 @@ export const LESSONS: Lesson[] = [
       'These prompts are intentionally short — focus on the shift-letter-release rhythm.',
     ],
     keys: 'qwertyuiopasdfghjkl;zxcvbnm, .',
+    literal: true,
     pool: [
       'New York is loud.',
       'Mary read a Tolstoy novel.',
@@ -373,6 +380,7 @@ export const LESSONS: Lesson[] = [
       'Question mark is Shift + /. We did / in chapter 19.',
     ],
     keys: "asdfjkl;', .?",
+    literal: true,
     pool: [
       "it's a test.",
       'she said, "hi."',
@@ -393,6 +401,7 @@ export const LESSONS: Lesson[] = [
       'Plus, minus, equals, slash are all single-finger reaches in the top-right and bottom-right.',
     ],
     keys: '[]()+-=/ ',
+    literal: true,
     pool: ['(a)', '[1]', '{x}', '1 + 2 = 3', '(a + b)', '5 - 2', '10 / 2', 'a[0]', '{key: val}'],
   },
 
@@ -409,6 +418,7 @@ export const LESSONS: Lesson[] = [
     ],
     tip: 'When TH fires as a single muscle memory, your WPM jumps overnight.',
     keys: 'abcdefghijklmnopqrstuvwxyz ',
+    literal: true,
     pool: ['th th th', 'he he he', 'in in', 'er er', 'an an', 're re', 'on on', 'at at', 'en en', 'nd nd', 'th he in er', 'an re on at'],
   },
   {
@@ -421,6 +431,7 @@ export const LESSONS: Lesson[] = [
       'Each trigram should feel like a single keystroke once mastered.',
     ],
     keys: 'abcdefghijklmnopqrstuvwxyz ',
+    literal: true,
     pool: ['the the the', 'and and and', 'ing ing', 'ion ion', 'tio tio', 'ent ent', 'ati ati', 'for for', 'her her', 'ter ter', 'the and ing', 'for her'],
   },
   {
@@ -434,6 +445,7 @@ export const LESSONS: Lesson[] = [
       'These prompts mix and match the top 100. Type them smoothly and don\'t stop between words.',
     ],
     keys: 'abcdefghijklmnopqrstuvwxyz ',
+    literal: true,
     pool: [
       'the of and to a in is you that it',
       'he was for on are with as i his they',
@@ -454,6 +466,7 @@ export const LESSONS: Lesson[] = [
     ],
     tip: 'A great test: can you type a comma without your eyes flicking to your hands? If yes, you\'ve nailed it.',
     keys: "abcdefghijklmnopqrstuvwxyz ,.;':\"?-",
+    literal: true,
     pool: [
       "It's a long road, but it's worth it.",
       'She said, "Slow down; speed comes later."',
@@ -475,6 +488,7 @@ export const LESSONS: Lesson[] = [
     ],
     tip: 'There is no finish line. The best typists in the world still practice. Welcome to the club.',
     keys: "abcdefghijklmnopqrstuvwxyz0123456789 ()[]{}+-=/<>;:'\".,",
+    literal: true,
     pool: [
       "const x = 1;",
       "if (a > b) return a;",
@@ -483,6 +497,173 @@ export const LESSONS: Lesson[] = [
       "def hello(name): print(name)",
       "items.map(x => x * 2)",
       "user?.name ?? 'guest'",
+    ],
+  },
+
+  // ─── TRACK 7 · FLUENCY & MASTERY ──────────────────────────
+  // Post-curriculum drills that turn keyboard coverage into real-world speed:
+  // double letters, themed vocabulary, capitalization in context, numbers in
+  // the wild, symbol fluency, and timed sprints. Everything here assumes the
+  // full keyboard from Tracks 1–6.
+  {
+    id: 'lesson-33',
+    title: 'Chapter 33: Double Letters',
+    subtitle: 'Focus: Same-finger repeats',
+    instructions: 'Words with doubled letters — LL, SS, EE, OO, TT — train the quick same-finger tap.',
+    guide: [
+      'Doubled letters are a hidden speed trap. Hitting the SAME key twice, fast and clean, uses a different motion than alternating fingers — a quick double-tap, not two separate presses.',
+      'Watch for the weak fingers especially: the double-L (LL), double-S (SS), and double-O (OO) all land on ring and pinky fingers that like to be lazy.',
+      'Keep the rhythm even. A doubled letter should sound like one confident "tut-tut", not a hesitant "tap … tap".',
+    ],
+    tip: 'If a doubled letter ever produces just one character, you are releasing too slowly. Lift and re-press crisply.',
+    keys: 'abcdefghijklmnopqrstuvwxyz ',
+    literal: true,
+    pool: ['fall', 'pass', 'tree', 'book', 'letter', 'better', 'coffee', 'success', 'balloon', 'committee', 'happy', 'dollar', 'butter', 'green', 'small'],
+  },
+  {
+    id: 'lesson-34',
+    title: 'Chapter 34: Everyday Words',
+    subtitle: 'Focus: Conversational vocabulary',
+    instructions: 'The words you actually use in messages, emails, and notes every day.',
+    guide: [
+      'Beyond the top-100 function words lie the everyday content words — the verbs and nouns of real life. These are what you type when you write to a friend or fire off an email.',
+      'Type these in smooth phrases. Your goal is to stop seeing individual letters and start seeing whole words flow from your fingertips.',
+      'Aim for an even cadence. Consistency beats bursts of speed followed by long pauses.',
+    ],
+    keys: 'abcdefghijklmnopqrstuvwxyz ',
+    literal: true,
+    pool: [
+      'thanks so much',
+      'see you soon',
+      'let me know',
+      'sounds good to me',
+      'talk later today',
+      'have a great day',
+      'on my way now',
+      'almost finished here',
+    ],
+  },
+  {
+    id: 'lesson-35',
+    title: 'Chapter 35: Capitalization in Context',
+    subtitle: 'Focus: Sentences that start with capitals',
+    instructions: 'Full sentences — each begins with a capital and ends with punctuation.',
+    guide: [
+      'Real writing capitalizes the first letter of every sentence. That means a Shift press at the start of almost every line, woven seamlessly into your rhythm.',
+      'The pattern from Track 4 returns: opposite-hand Shift, capital, release, lowercase. Now you do it mid-flow, without stopping.',
+      'Read each sentence once, then type it as one continuous motion. The capital at the start should not slow you down at all.',
+    ],
+    tip: 'The full stop and the next capital are a pair. Train them as a single beat: ". " then Shift — period, space, capital.',
+    keys: 'abcdefghijklmnopqrstuvwxyz ,.',
+    literal: true,
+    pool: [
+      'The sun rose over the hills.',
+      'We can finish this today.',
+      'Practice makes the difference.',
+      'Every expert was once a beginner.',
+      'Small steps lead to big results.',
+      'Keep your eyes on the screen.',
+    ],
+  },
+  {
+    id: 'lesson-36',
+    title: 'Chapter 36: Numbers in the Wild',
+    subtitle: 'Focus: Digits inside real text',
+    instructions: 'Dates, prices, times, and quantities — numbers mixed with words.',
+    guide: [
+      'In real writing, numbers rarely appear alone. They sit inside sentences: a price, a date, a time, a count. Your fingers must travel to the number row and back without losing the thread of the words.',
+      'This is the true test of the number row from Track 5. Letters, then a reach up for digits, then back to letters — smoothly.',
+      'Don\'t look down for the digits. You drilled them; trust them.',
+    ],
+    keys: 'abcdefghijklmnopqrstuvwxyz0123456789 ,.:$',
+    literal: true,
+    pool: [
+      'I have 3 cats and 2 dogs.',
+      'The meeting is at 9:30 today.',
+      'It costs $45 in total.',
+      'She ran 10 km on day 7.',
+      'Order 24 arrives by May 5.',
+      'Room 1408 is on floor 14.',
+    ],
+  },
+  {
+    id: 'lesson-37',
+    title: 'Chapter 37: Symbols & Email',
+    subtitle: 'Focus: @ # & % and the symbol shift',
+    instructions: 'The symbols of modern life — emails, hashtags, percentages, and handles.',
+    guide: [
+      'The @ sign (Shift+2), the hashtag # (Shift+3), the ampersand & (Shift+7), and the percent % (Shift+5) are everywhere online. Each is a Shift + number-row reach.',
+      'These combine a Shift hold with a long reach to the number row — the hardest two-hand coordination so far. Go slowly until it clicks.',
+      'Type the handles and addresses below as single units. Notice how your hands learn the shape of an email address.',
+    ],
+    tip: 'For Shift+symbol on the number row, use the OPPOSITE-hand Shift, just like capitals. @ is left of center, so use the right Shift.',
+    keys: "abcdefghijklmnopqrstuvwxyz0123456789 @#&%.",
+    literal: true,
+    pool: [
+      'email me at sam@mail.com',
+      'use the tag #typing',
+      'save 25% today',
+      'tom & jerry',
+      'reach hi@site.io now',
+      '50% off this week',
+    ],
+  },
+  {
+    id: 'lesson-38',
+    title: 'Chapter 38: Longer Words',
+    subtitle: 'Focus: Multi-syllable stamina',
+    instructions: 'Bigger words that test finger endurance and accuracy over distance.',
+    guide: [
+      'Short words are sprints; long words are middle-distance runs. A ten-letter word is ten chances to make a mistake, so accuracy under sustained motion is the skill here.',
+      'Break each long word into the chunks you trained in Track 6 — syllables and common trigrams (ING, TION, MENT). Your fingers already know the pieces.',
+      'If you stumble, slow down. A clean slow run trains the right pattern; a fast messy run trains the wrong one.',
+    ],
+    keys: 'abcdefghijklmnopqrstuvwxyz ',
+    literal: true,
+    pool: ['understand', 'information', 'development', 'experience', 'opportunity', 'environment', 'immediately', 'organization', 'particularly', 'responsibility', 'communication', 'professional'],
+  },
+  {
+    id: 'lesson-39',
+    title: 'Chapter 39: Quotes & Wisdom',
+    subtitle: 'Focus: Flowing real prose',
+    instructions: 'Famous quotations — type them as smooth, meaningful sentences.',
+    guide: [
+      'Now you type real, complete thoughts. Quotations carry natural rhythm and varied punctuation — the perfect material for building genuine fluency.',
+      'Read each quote, understand it, then type it as one flowing line. Meaning helps memory; when you understand the words, your fingers predict them.',
+      'This is what all the drills were for: typing real language without thinking about the keyboard at all.',
+    ],
+    tip: 'Let your eyes read slightly AHEAD of your fingers — a word or two ahead. That look-ahead is the secret of every fast typist.',
+    keys: "abcdefghijklmnopqrstuvwxyz ,.'-",
+    literal: true,
+    pool: [
+      'The journey of a thousand miles begins with one step.',
+      'Whatever you are, be a good one.',
+      'Well done is better than well said.',
+      'The only way to do great work is to love what you do.',
+      'Action is the foundational key to all success.',
+      'Quality is not an act, it is a habit.',
+    ],
+  },
+  {
+    id: 'lesson-40',
+    title: 'Chapter 40: The Final Sprint',
+    subtitle: 'Focus: Everything, at speed',
+    instructions: 'Mixed prose with capitals, numbers, and punctuation — the graduation drill.',
+    guide: [
+      'The last chapter. Everything you have learned — letters, capitals, numbers, symbols, punctuation, rhythm, and look-ahead — comes together here.',
+      'These sentences hold a bit of everything. Type them the way you would write a real message: confidently, smoothly, eyes forward, fingers trusting the map you spent 40 chapters building.',
+      'When you can type these cleanly at a steady pace, you are no longer learning to type — you are simply typing. That was the whole goal.',
+    ],
+    tip: 'Set a timer mode and chase your own record. The curriculum ends, but the practice never has to. Welcome to fluency.',
+    keys: "abcdefghijklmnopqrstuvwxyz0123456789 ,.:;'\"!?-",
+    literal: true,
+    pool: [
+      'On June 5, 2026, we shipped version 2.1 of the app.',
+      'She asked, "Can you finish all 40 chapters?"',
+      'Yes — 100% done, and it only took 3 weeks!',
+      'Focus, rhythm, and patience: that is the whole secret.',
+      'Type 60 words per minute today; aim for 90 tomorrow.',
+      'The keyboard is mastered. Now go write something great.',
     ],
   },
 ];

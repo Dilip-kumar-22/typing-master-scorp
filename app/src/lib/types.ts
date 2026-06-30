@@ -42,6 +42,17 @@ export interface Lesson {
   tip?: string;
   keys: string;
   pool: string[];
+  /**
+   * How `pool` is turned into a typing prompt:
+   *  - falsy (default): `pool` is a CHARACTER SOURCE — its letters are flattened
+   *    into a set and random "words" are generated (the classic drill behavior,
+   *    right for mechanical chapters like `ffff jjjj`).
+   *  - true: `pool` entries are real words/sentences and are used VERBATIM —
+   *    entries are picked (and joined for multi-word pools) to reach roughly the
+   *    requested length. Right for fluency chapters and pangrams so the learner
+   *    types real text instead of random-letter soup.
+   */
+  literal?: boolean;
 }
 
 export interface Challenge {
