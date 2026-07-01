@@ -1449,6 +1449,91 @@ body.theme-light .finger-guide { background: rgba(0,0,0,0.03); }
   .ch0-go { width: 100%; justify-content: flex-end; }
 }
 
+/* =========================================================
+   INSIGHTS — typing analysis dashboard
+   ========================================================= */
+.insights { margin-top: 8px; }
+.ins-reco {
+  display: flex; gap: 12px; align-items: center;
+  padding: 14px 18px; border-radius: 14px; margin: 4px 0 18px;
+  background: linear-gradient(120deg, rgba(139,92,246,0.14), rgba(34,211,238,0.08));
+  border: 1px solid rgba(139,92,246,0.25);
+}
+.ins-reco-icon { font-size: 22px; flex-shrink: 0; }
+.ins-reco p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-0); font-weight: 500; }
+
+.ins-kpis {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 18px;
+}
+.ins-kpi {
+  padding: 14px 16px; border-radius: 14px;
+  background: var(--panel); border: 1px solid var(--hairline);
+}
+.ins-kpi-val {
+  font-family: var(--font-mono); font-size: 26px; font-weight: 700; color: var(--text-0);
+  line-height: 1; display: flex; align-items: baseline; gap: 6px;
+}
+.ins-kpi-lbl {
+  margin-top: 6px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 600;
+}
+.ins-delta { font-size: 12px; font-weight: 700; font-family: var(--font-ui); }
+.ins-delta.up { color: #4ade80; }
+.ins-delta.down { color: #fb7185; }
+
+.ins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ins-card {
+  padding: 18px 20px; border-radius: 16px;
+  background: var(--panel); border: 1px solid var(--hairline);
+}
+.ins-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.ins-card-head h3 { margin: 0; font-size: 14px; font-weight: 700; color: var(--text-0); }
+.ins-drill-btn {
+  font-size: 11px; font-weight: 700; color: var(--accent);
+  background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.3);
+  padding: 5px 10px; border-radius: 999px; cursor: pointer;
+}
+.ins-drill-btn:hover { background: rgba(139,92,246,0.2); }
+.ins-empty { font-size: 12px; color: var(--text-3); padding: 8px 0; }
+
+.ins-keylist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.ins-keylist li { display: flex; align-items: center; gap: 10px; }
+.ins-key {
+  flex-shrink: 0; width: 30px; height: 30px; display: grid; place-items: center;
+  font-family: var(--font-mono); font-weight: 700; font-size: 13px; color: var(--text-0);
+  background: rgba(255,255,255,0.06); border: 1px solid var(--hairline);
+  border-bottom-width: 2px; border-radius: 7px; text-transform: uppercase;
+}
+.ins-finger {
+  flex-shrink: 0; width: 96px; font-size: 12px; color: var(--text-1); font-weight: 500;
+}
+.ins-bar {
+  flex: 1; height: 8px; border-radius: 999px; overflow: hidden;
+  background: rgba(255,255,255,0.06);
+}
+body.theme-light .ins-bar { background: rgba(0,0,0,0.06); }
+.ins-bar-fill { height: 100%; border-radius: 999px; transition: width 0.4s ease; }
+.ins-key-acc {
+  flex-shrink: 0; width: 40px; text-align: right;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--text-1);
+}
+.ins-key-n {
+  flex-shrink: 0; width: 52px; text-align: right;
+  font-family: var(--font-mono); font-size: 10px; color: var(--text-3);
+}
+.ins-jump {
+  margin-top: 16px; width: 100%; padding: 12px; border-radius: 12px;
+  background: transparent; border: 1px dashed var(--hairline-strong);
+  color: var(--text-2); font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: all 0.16s ease;
+}
+.ins-jump:hover { color: var(--accent); border-color: var(--accent); }
+
+@media (max-width: 720px) {
+  .ins-kpis { grid-template-columns: repeat(2, 1fr); }
+  .ins-grid { grid-template-columns: 1fr; }
+}
+
 /* LOCK BADGE */
 .lock-badge {
   font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px;

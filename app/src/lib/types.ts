@@ -90,6 +90,16 @@ export interface Session {
   time: number;
 }
 
+/** Per-key lifetime aggregate — presses + errors accumulated across ALL
+ *  sessions (survives the 20-session history cap). Powers the Insights panel:
+ *  all-time weakest keys, per-finger accuracy, etc. Keyed by the lowercased
+ *  character ('a', ';', ' ', '\n', …). */
+export interface KeyStat {
+  presses: number;
+  errors: number;
+}
+export type KeyStats = Record<string, KeyStat>;
+
 export interface StruggleKey {
   k: string;
   n: number;
@@ -137,6 +147,7 @@ export interface PersistedStore {
   history?: Session[];
   unlockedLessons?: string[];
   completedLessons?: string[];
+  keyStats?: KeyStats;
   // Phase-5 adaptive engine. Stored as a plain JSON object (the inner
   // type is defined in lib/keybr.ts to avoid a circular import here).
   keybr?: {

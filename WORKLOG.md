@@ -4,6 +4,41 @@ Append-only log of changes per session. Newest first.
 
 ---
 
+## 2026-07-01 (cont.) — Repo cleanup + pro README + Insights dashboard
+
+**Repo cleanup (local + GitHub):**
+- Deleted the fully-orphaned legacy app: 10 stale `.jsx` React prototypes, the
+  root vanilla-JS app (index.html/app.js/data.js/audio.js/styles.css/test.js),
+  root package.json+lock, `.thumbnail`, and the internal journey docs
+  (HANDOFF/SESSION_HANDOFF/MIGRATION). Nothing referenced them; real app is in
+  `app/`. All recoverable from git history.
+- Moved backend/build guides into `docs/` (SUPABASE/STRIPE/TEAMS_SETUP, NATIVE,
+  MOBILE_PWA, BUILD_APPS). Root now: README, INSTALL, SECURITY, PROJECT_MAP,
+  WORKLOG, LICENSE. Fixed links in INSTALL/SECURITY to `docs/`.
+- Verified app tests/build unaffected by the root deletions.
+
+**Professional README + LICENSE:**
+- Rewrote README.md: centered hero, badges, live link, prominent "Install on
+  your laptop (1 min)" desktop+mobile steps, features table, tech, dev, deploy,
+  repo map, docs index. Added MIT `LICENSE`. Set GitHub repo
+  description/homepage/topics via `gh repo edit`.
+
+**Typing-analysis / Insights dashboard (the requested "analysis" feature):**
+- `lib/insights.ts` (NEW, pure/tested): weakestKeys (all-time, min-sample
+  filtered), per-finger accuracy (via FINGER_MAP), computeInsights (best/avg
+  WPM, avg accuracy, improvement delta, consistency=stdev of recent WPM), and a
+  plain-English `recommend()`.
+- Persistence: added `KeyStats` type + `keyStats` signal; `completeSession()`
+  now accumulates per-key presses/errors into a lifetime aggregate (survives the
+  20-session history cap); `resetProgress()` clears it.
+- `components/InsightsPanel.tsx` (NEW, lazy): recommendation banner, 5 KPIs,
+  weakest-keys list w/ accuracy bars + one-click "Drill weak keys" (custom-set),
+  per-finger accuracy, "Build a custom drill" jump. Shown on Home when history
+  exists. 11 i18n keys × 6 locales. CSS added.
+- Tests: `test/insights.test.ts` (8, pure logic) + `test/insights-render.test.tsx`
+  (2, component renders). **122 tests total, all green.** typecheck clean,
+  build 0 warnings.
+
 ## 2026-07-01 — Chapter 0 visual primer + security hardening (launch prep)
 
 **Chapter 0 — visual finger guide** (`src/components/FingerGuide.tsx` NEW):

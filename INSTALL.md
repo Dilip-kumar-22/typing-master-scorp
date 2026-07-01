@@ -46,7 +46,7 @@ and **all your progress, settings, and stats are saved on your own device.**
 - **Your data stays yours** — progress, unlocked chapters, stats, themes, and
   settings are stored locally on your device (via the browser's storage). No
   account needed. *(Optional: sign in to sync across devices — that's a separate
-  feature and requires a backend, see SUPABASE_SETUP.md.)*
+  feature and requires a backend, see [docs/SUPABASE_SETUP.md](docs/SUPABASE_SETUP.md).)*
 - **Auto-updates** — when the site updates, the installed app updates itself the
   next time you open it online.
 
@@ -65,8 +65,8 @@ and **all your progress, settings, and stats are saved on your own device.**
 ## 📦 Other ways to get the app
 
 - **Android APK** (a downloadable installer file) can be produced via the
-  `Android build` GitHub Action — see [BUILD_APPS.md](BUILD_APPS.md).
+  `Android build` GitHub Action — see [docs/BUILD_APPS.md](docs/BUILD_APPS.md).
 - **iOS / desktop .exe** options are also covered in
-  [BUILD_APPS.md](BUILD_APPS.md).
+  [docs/BUILD_APPS.md](docs/BUILD_APPS.md).
 
 The PWA above is the easiest path for almost everyone.

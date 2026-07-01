@@ -34,7 +34,7 @@ A full pre-launch security review was performed. Summary:
 ## For self-hosters
 
 - Apply **all** SQL migrations `0001` → `0005` **in order**. `0005` is a
-  required security hardening step — see [SUPABASE_SETUP.md](SUPABASE_SETUP.md).
+  required security hardening step — see [docs/SUPABASE_SETUP.md](docs/SUPABASE_SETUP.md).
 - Set `ALLOWED_ORIGINS` on your Edge Functions to your production origin(s) so
   CORS reflects an allowlist instead of `*`.
 - Any Pro/paid *capability* must be enforced server-side (via RLS using the

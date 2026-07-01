@@ -19,6 +19,7 @@ import { t } from '../lib/i18n';
 
 // Code-split — these load on demand only when the user opens the tab /
 // scrolls to the panel. Saves ~60-70 KB on the critical-path bundle.
+const InsightsPanel        = lazyComponent(() => import('./InsightsPanel').then(m => m.InsightsPanel));
 const AdaptivePanel        = lazyComponent(() => import('./AdaptivePanel').then(m => m.AdaptivePanel));
 const Multiplayer          = lazyComponent(() => import('./Multiplayer').then(m => m.Multiplayer));
 const PricingPanel         = lazyComponent(() => import('./PricingPanel').then(m => m.PricingPanel));
@@ -369,6 +370,7 @@ export function Home() {
       {activeTab.value === 'challenges'  && <ChallengesGrid />}
       {activeTab.value === 'custom'      && <CustomPicker />}
       <StatsStrip />
+      {hasHistory && <InsightsPanel />}
       {hasHistory && <TrendCard />}
       {isSupabaseConfigured() && <AuthCard />}
       {isBillingConfigured() && <PricingPanel />}

@@ -14,6 +14,7 @@ import type {
   Session,
   SessionResult,
   PersistedStore,
+  KeyStats,
 } from './types';
 import { LESSONS, buildPrompt, generateFromCustomKeys, buildLiteralPrompt } from './data';
 import { SynthAudio } from './audio';
@@ -97,6 +98,10 @@ export const tutorialActive = signal(false);
 export const history = signal<Session[]>(persisted.history || []);
 export const unlockedLessons = signal<string[]>(persisted.unlockedLessons || ['lesson-1']);
 export const completedLessons = signal<string[]>(persisted.completedLessons || []);
+
+// Lifetime per-key aggregate (presses + errors), accumulated across ALL
+// sessions — survives the 20-session history cap. Powers the Insights panel.
+export const keyStats = signal<KeyStats>(persisted.keyStats || {});
 
 // Per-lesson "skip the intro guide" preference. Persisted via a separate
 // localStorage key so it doesn't bloat the main store payload.
@@ -295,8 +300,9 @@ export function resetProgress(): void {
     history.value = [];
     unlockedLessons.value = ['lesson-1'];
     completedLessons.value = [];
+    keyStats.value = {};
   });
-  persist({ history: [], unlockedLessons: ['lesson-1'], completedLessons: [] });
+  persist({ history: [], unlockedLessons: ['lesson-1'], completedLessons: [], keyStats: {} });
 }
 
 export function shareResult(toast: (msg: string) => void): void {
@@ -383,6 +389,25 @@ export function completeSession(): void {
   };
   history.value = [...history.value, session].slice(-20);
   persist({ history: history.value });
+
+  // Accumulate this session's per-key presses + errors into the lifetime
+  // aggregate that powers the Insights panel. keyFreq = presses per key,
+  // keyErrs = errors per key (both keyed by lowercased char). This outlives
+  // the 20-session history cap, so all-time weak-key analysis stays accurate.
+  {
+    const next: KeyStats = { ...keyStats.value };
+    for (const [k, presses] of Object.entries(keyFreq.value)) {
+      const cur = next[k] || { presses: 0, errors: 0 };
+      next[k] = { presses: cur.presses + presses, errors: cur.errors };
+    }
+    for (const [k, errs] of Object.entries(keyErrs.value)) {
+      const cur = next[k] || { presses: 0, errors: 0 };
+      next[k] = { presses: cur.presses, errors: cur.errors + errs };
+    }
+    keyStats.value = next;
+    persist({ keyStats: next });
+  }
+
   // Fire-and-forget cloud push. Local copy is already saved above, so a
   // network failure here is silently tolerated — we'll re-sync next time.
   void pushSession(session).catch(() => { /* ignore */ });
