@@ -69,6 +69,8 @@ export const activeTab = signal<Tab>('lessons');
 export const drawerOpen = signal(false);
 export const modePopoverOpen = signal(false);
 export const shortcutsHelpOpen = signal(false);
+/** Chapter 0 — the visual "how touch typing works" intro overlay. */
+export const primerOpen = signal(false);
 export const zen = signal(false);
 
 // ─── Settings ─────────────────────────────────────────

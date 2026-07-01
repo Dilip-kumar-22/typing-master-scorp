@@ -5,6 +5,7 @@ import type { Session } from '../lib/types';
 import {
   activeTab, mode, view, history, completedLessons,
   unlockedLessons, customKeys, pickAndStart, shortcutsHelpOpen,
+  primerOpen,
 } from '../lib/store';
 import { CustomKeysPanel } from './CustomKeysPanel';
 import { ProGate } from './ProGate';
@@ -102,6 +103,14 @@ function LessonsGrid() {
         <p>{t('lessonsSub')}</p>
       </div>
       <div class="modes-grid">
+        <button class="ch0-card" onClick={() => { primerOpen.value = true; }}>
+          <span class="ch0-badge" aria-hidden="true">🖐️</span>
+          <span class="ch0-text">
+            <h3>{t('ch0Title')}</h3>
+            <p>{t('ch0Sub')}</p>
+          </span>
+          <span class="ch0-go">{t('ch0Cta')} →</span>
+        </button>
         {LESSONS.map((lesson, index) => {
           const isUnlocked = unlockedLessons.value.includes(lesson.id);
           const isCompleted = completedLessons.value.includes(lesson.id);

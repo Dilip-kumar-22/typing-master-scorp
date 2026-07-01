@@ -17,10 +17,22 @@ This doc walks the backend setup.
 ## 2. Apply the schema (1 min)
 
 1. In the Supabase dashboard, open **SQL Editor → New Query**
-2. Paste the entire contents of [`app/supabase/migrations/0001_init.sql`](app/supabase/migrations/0001_init.sql)
-3. Click **Run** — should report "Success. No rows returned."
+2. Paste and **Run each migration in order**:
+   - [`0001_init.sql`](app/supabase/migrations/0001_init.sql) — core tables
+   - [`0002_multiplayer.sql`](app/supabase/migrations/0002_multiplayer.sql) — race rooms *(only if you want multiplayer)*
+   - [`0003_billing.sql`](app/supabase/migrations/0003_billing.sql) — Stripe subscriptions *(only if you want billing)*
+   - [`0004_teams.sql`](app/supabase/migrations/0004_teams.sql) — classrooms/orgs *(only if you want Teams)*
+   - **[`0005_security_hardening.sql`](app/supabase/migrations/0005_security_hardening.sql) — REQUIRED. Apply this last, always.**
+3. Each should report "Success. No rows returned."
 
-This creates three tables (`profiles`, `sessions`, `progress`), one view (`leaderboard`), Row-Level Security policies, and an auto-create-profile trigger that fires on every new signup.
+> ⚠️ **`0005` is a security fix, not optional.** Migration `0001` shipped a
+> `sessions_public_read USING (true)` policy that (because Postgres RLS is
+> permissive-OR) makes the whole `sessions` table world-readable and overrides
+> the Teams tenant boundary. `0005` drops that, serves the public leaderboard
+> through a `SECURITY DEFINER` function instead, and tightens the multiplayer +
+> profile read policies. **Do not run a production backend without it.**
+
+This creates three core tables (`profiles`, `sessions`, `progress`), the `leaderboard` view, Row-Level Security policies, and an auto-create-profile trigger that fires on every new signup.
 
 ## 3. Wire up auth providers (2 min)
 

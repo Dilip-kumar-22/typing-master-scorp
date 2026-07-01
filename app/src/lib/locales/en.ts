@@ -40,6 +40,9 @@ export const en = {
   // Section heads
   lessonsHead: '📚 Touch-Typing Curriculum Chapters',
   lessonsSub: 'Unlock chapters sequentially to build complete muscle coordinate memory. Pass lessons with >85% accuracy.',
+  ch0Title: 'Chapter 0 · How touch typing actually works',
+  ch0Sub: 'New here? Two minutes with a colour-coded keyboard, before you type a single key.',
+  ch0Cta: 'Open the guide',
   challengesHead: '🏆 Elite Speed & Accuracy Challenges',
   challengesSub: 'Push your speed metrics with seeded Daily Challenges, multi-line punctuation drills, or py/js code runs.',
   customHead: '🛠️ QWERTY Coordinate Builder',

@@ -80,15 +80,37 @@ export async function createRoom(prompt: string, modeLabel: string): Promise<Roo
   throw new Error('Could not allocate room code — try again');
 }
 
-/** Look up a room by its share code. Returns null if not found. */
+/** Look up a room by its share code. Returns null if not found.
+ *
+ * Uses the `room_by_code` SECURITY DEFINER function (0005) rather than a direct
+ * table select: after the RLS hardening, a joiner is not yet a room member and
+ * so cannot read the `rooms` row directly. The function resolves the code to
+ * the minimal fields needed to join; once the joiner inserts their participant
+ * row, the member RLS policy grants read of the full room (incl. the prompt). */
 export async function findRoom(code: string): Promise<Room | null> {
   const sb = getSupabase();
   if (!sb) return null;
-  const { data } = await sb
-    .from('rooms')
-    .select('*')
-    .eq('code', code.toUpperCase())
+  const { data, error } = await sb
+    .rpc('room_by_code', { p_code: code.toUpperCase() })
     .maybeSingle();
+  if (error || !data) return null;
+  const r = data as Pick<Room, 'id' | 'code' | 'mode_label' | 'status' | 'host_id'>;
+  // The function intentionally omits `prompt` (revealed after joining) and the
+  // timestamp fields; fill the Room shape with safe placeholders until the
+  // member-scoped realtime read hydrates the rest.
+  return {
+    id: r.id, code: r.code, host_id: r.host_id,
+    mode_label: r.mode_label, status: r.status,
+    prompt: '', started_at: null, finished_at: null, created_at: '',
+  };
+}
+
+/** After joining, re-read the full room row (now permitted by member RLS) so
+ *  the joiner gets the prompt + timestamps. Returns null if not yet readable. */
+export async function fetchRoom(roomId: string): Promise<Room | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data } = await sb.from('rooms').select('*').eq('id', roomId).maybeSingle();
   return (data ?? null) as Room | null;
 }
 

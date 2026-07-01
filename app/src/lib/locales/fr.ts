@@ -31,6 +31,9 @@ export const fr: Partial<Translations> = {
 
   lessonsHead: '📚 Programme de dactylographie',
   lessonsSub: 'Débloquez les chapitres en séquence pour construire une mémoire musculaire complète. Validez avec plus de 85% de précision.',
+  ch0Title: 'Chapitre 0 · Comment fonctionne la dactylographie',
+  ch0Sub: 'Nouveau ici ? Deux minutes avec un clavier coloré, avant de taper une seule touche.',
+  ch0Cta: 'Ouvrir le guide',
   challengesHead: '🏆 Défis d\'élite — vitesse et précision',
   challengesSub: 'Améliorez votre vitesse avec des Défis Quotidiens, des paragraphes longs ou du code JS/Python.',
   customHead: '🛠️ Constructeur de coordonnées',

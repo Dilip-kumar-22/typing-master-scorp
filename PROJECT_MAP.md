@@ -41,10 +41,11 @@ graph TD
 
   subgraph UI["components/"]
     TOPBAR["TopBar<br/>theme toggle, install, gear"]
-    HOME["Home<br/>tabs + chapter grid"]
+    HOME["Home<br/>tabs + chapter grid + Ch0 card"]
     PRACTICE["Practice + TypingCard<br/>StatsBar, KeyboardCard"]
     DRAWER["SettingsDrawer<br/>all settings"]
     RESULTS["ResultsOverlay"]
+    PRIMER["FingerGuide/Primer<br/>Chapter 0 visual finger guide"]
     LAZY["Lazy.tsx<br/>code-split helper"]
     LAZYUI["AdaptivePanel · Multiplayer ·<br/>Pricing/Billing · TeamDashboard ·<br/>CustomParagraph (lazy)"]
   end
@@ -66,7 +67,7 @@ graph TD
   end
 
   HTML --> MAIN --> APP
-  APP --> TOPBAR & HOME & PRACTICE & DRAWER & RESULTS
+  APP --> TOPBAR & HOME & PRACTICE & DRAWER & RESULTS & PRIMER
   APP --> STORE
   TOPBAR --> STORE
   DRAWER --> STORE

@@ -31,6 +31,9 @@ export const es: Partial<Translations> = {
 
   lessonsHead: '📚 Currículo de mecanografía',
   lessonsSub: 'Desbloquea capítulos uno tras otro para construir memoria muscular completa. Aprueba con >85% de precisión.',
+  ch0Title: 'Capítulo 0 · Cómo funciona la mecanografía',
+  ch0Sub: '¿Nuevo aquí? Dos minutos con un teclado codificado por colores, antes de pulsar una sola tecla.',
+  ch0Cta: 'Abrir la guía',
   challengesHead: '🏆 Desafíos de élite — velocidad y precisión',
   challengesSub: 'Mejora tu velocidad con Desafíos Diarios, párrafos largos o código en JS/Python.',
   customHead: '🛠️ Constructor de coordenadas QWERTY',

@@ -4,6 +4,45 @@ Append-only log of changes per session. Newest first.
 
 ---
 
+## 2026-07-01 — Chapter 0 visual primer + security hardening (launch prep)
+
+**Chapter 0 — visual finger guide** (`src/components/FingerGuide.tsx` NEW):
+- A colour-coded keyboard where every key is painted with its finger's colour
+  (8 fingers = 8 hues, thumbs share one), driven by the existing `FINGER_MAP`.
+- Live animated cue ("K → your right middle"), a two-hands illustration whose
+  fingers light up in sync, an 8-finger legend, and 3 humanized tip cards.
+- Warm, human copy (not AI-flat). Surfaces as a "Chapter 0 · Start here" card
+  at the top of the lessons grid AND auto-opens once for brand-new visitors
+  (localStorage `typing_master_seen_primer`; skipped if deep-linked or has
+  history). "Start Chapter 1 →" jumps straight into lesson-1.
+- Kept OUT of the 40-lesson array so it doesn't disturb the Chapter-N sequence
+  / progress invariants. 3 i18n keys × 6 locales. `<Primer/>` mounted in App.
+- Verified in-browser: auto-open works, animation cycles, Start-Chapter-1 flow
+  navigates to practice, 0 a11y violations on the overlay, screenshots.
+- Bug caught during verify: had `background`-shorthand-style base mismatch —
+  serving a `base:'/'` build under the `/typing-master-scorp/` subpath 404'd the
+  bundle (blank app). Always `build:pages` when previewing the subpath.
+
+**Security hardening** (pre-launch audit via subagent — no secrets found):
+- **CRITICAL fix** — `supabase/migrations/0005_security_hardening.sql` (NEW):
+  0001 shipped `sessions_public_read USING (true)`, which (RLS is permissive-OR)
+  made the whole sessions table world-readable and OVERRODE the 0004 Teams
+  tenant boundary. 0005 drops it and serves the public leaderboard via a
+  `SECURITY DEFINER` `leaderboard_top()` function (anonymized cols only). Also:
+  scoped multiplayer `rooms`/`room_participants` reads to host-or-member (+ a
+  `room_by_code()` definer fn for join-by-code) and made `profiles` reads
+  authenticated-only.
+- Client: `multiplayer.ts findRoom()` now uses the `room_by_code` RPC + new
+  `fetchRoom()` re-read after join (member RLS reveals the prompt); `Multiplayer.tsx`
+  join flow updated. `_shared/cors.ts` → origin allowlist (was `*`).
+- Docs: `SECURITY.md` (NEW, disclosure + posture), `SUPABASE_SETUP.md` updated
+  to apply 0005 as a required step.
+- Audit verified-safe: anon/PostHog/publishable keys are the public kind;
+  `.env.example` blank; one dangerouslySetInnerHTML is hardcoded icon paths;
+  escapeHTML sound; Stripe webhook verifies signatures; RLS on every table.
+
+**Gate:** 112 tests green · typecheck clean · build 0 warnings · 45 SEO pages.
+
 ## 2026-06-30 (cont. 2) — PWA update-prompt + a11y/design pass
 
 **Task 1 — PWA update prompt** (no more silent-stale-cache for returning users):

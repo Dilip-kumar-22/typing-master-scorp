@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { signal } from '@preact/signals';
 import { currentUser, isSupabaseConfigured } from '../lib/auth';
 import {
-  createRoom, findRoom, joinRoom, startRoom, finishRace,
+  createRoom, findRoom, fetchRoom, joinRoom, startRoom, finishRace,
   subscribeToRoom,
   type Room, type Participant,
 } from '../lib/multiplayer';
@@ -85,10 +85,13 @@ function Lobby() {
     if (code.length < 4) return showToast('Enter a 4-char room code');
     setBusy(true);
     try {
-      const room = await findRoom(code);
-      if (!room) { showToast('Room not found'); setBusy(false); return; }
-      if (room.status === 'finished') { showToast('That race is over'); setBusy(false); return; }
-      await joinRoom(room.id);
+      const found = await findRoom(code);
+      if (!found) { showToast('Room not found'); setBusy(false); return; }
+      if (found.status === 'finished') { showToast('That race is over'); setBusy(false); return; }
+      await joinRoom(found.id);
+      // findRoom() (via the room_by_code function) intentionally omits the
+      // prompt; now that we're a member, re-read the full row to get it.
+      const room = (await fetchRoom(found.id)) || found;
       currentRoom.value = room;
       screen.value = room.status === 'racing' ? 'race' : 'room';
     } catch (e) {

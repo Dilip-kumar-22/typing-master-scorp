@@ -3,6 +3,7 @@ import {
   view, applyVisualSettings, applySettingsToAudio,
   restart, result, hydrateFromCloud,
   pickAndStart, activeTab, ADAPTIVE_MODE,
+  primerOpen, history as sessionHistory,
 } from './lib/store';
 import { initAuth, currentUser } from './lib/auth';
 import { initDevice } from './lib/device';
@@ -21,6 +22,7 @@ import { Practice } from './components/Practice';
 import { ResultsOverlay } from './components/ResultsOverlay';
 import { SettingsDrawer } from './components/SettingsDrawer';
 import { ShortcutsModal } from './components/ShortcutsModal';
+import { Primer } from './components/FingerGuide';
 import { ToastHost } from './hooks/useToast';
 import { useGlobalKeys } from './hooks/useGlobalKeys';
 import { A11yAnnouncer } from './hooks/useA11yAnnouncer';
@@ -90,6 +92,19 @@ export function App() {
 
     restart();
     void initAuth();
+
+    // First-timer welcome: open Chapter 0 (the visual finger primer) once, for
+    // brand-new visitors only (no saved progress, haven't seen it, and not deep-
+    // linked into a specific lesson/mode). Persisted so it never nags again.
+    const SEEN_PRIMER = 'typing_master_seen_primer';
+    const isFreshVisitor =
+      !localStorage.getItem(SEEN_PRIMER) &&
+      sessionHistory.value.length === 0 &&
+      !deepLesson && !deepMode;
+    if (isFreshVisitor) {
+      primerOpen.value = true;
+      try { localStorage.setItem(SEEN_PRIMER, '1'); } catch { /* ignore */ }
+    }
   }, []);
 
   // Auto-pull from cloud whenever the user becomes signed-in.
@@ -123,6 +138,7 @@ export function App() {
       {result.value && <ResultsOverlay />}
       <SettingsDrawer />
       <ShortcutsModal />
+      <Primer />
       <ToastHost />
       <A11yAnnouncer />
     </>

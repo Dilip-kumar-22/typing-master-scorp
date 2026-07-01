@@ -31,6 +31,9 @@ export const pt: Partial<Translations> = {
 
   lessonsHead: '📚 Currículo de digitação',
   lessonsSub: 'Desbloqueie capítulos em sequência para construir memória muscular completa. Aprove com mais de 85% de precisão.',
+  ch0Title: 'Capítulo 0 · Como a digitação realmente funciona',
+  ch0Sub: 'Novo por aqui? Dois minutos com um teclado colorido, antes de digitar uma única tecla.',
+  ch0Cta: 'Abrir o guia',
   challengesHead: '🏆 Desafios de elite — velocidade e precisão',
   challengesSub: 'Aumente sua velocidade com Desafios Diários, parágrafos longos ou trechos de JS/Python.',
   customHead: '🛠️ Construtor de coordenadas QWERTY',

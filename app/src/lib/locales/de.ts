@@ -31,6 +31,9 @@ export const de: Partial<Translations> = {
 
   lessonsHead: '📚 Zehnfinger-Lehrplan',
   lessonsSub: 'Schalte Kapitel nacheinander frei, um vollständiges Muskelgedächtnis aufzubauen. Bestehen mit über 85% Genauigkeit.',
+  ch0Title: 'Kapitel 0 · Wie das Zehnfingerschreiben funktioniert',
+  ch0Sub: 'Neu hier? Zwei Minuten mit einer farbcodierten Tastatur, bevor du eine einzige Taste tippst.',
+  ch0Cta: 'Anleitung öffnen',
   challengesHead: '🏆 Elite-Herausforderungen — Geschwindigkeit und Genauigkeit',
   challengesSub: 'Steigere deine Geschwindigkeit mit Tages-Herausforderungen, langen Absätzen oder JS/Python-Code.',
   customHead: '🛠️ QWERTY-Tastenwähler',
