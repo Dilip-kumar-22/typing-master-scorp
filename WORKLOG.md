@@ -4,6 +4,38 @@ Append-only log of changes per session. Newest first.
 
 ---
 
+## 2026-07-01 (cont. 2) — Streaks/achievements + export-import + README hero
+
+**Streaks + Achievements** (folded into the Insights dashboard):
+- `lib/achievements.ts` (NEW, pure/tested): computeStreak (current/longest/total
+  from practiceDays, keeps streak alive if today not-yet-done but yesterday was)
+  + 10 badge defs (First Steps, WPM 40/60/80, Flawless, streak 3/7/30, Graduate,
+  Marathoner) with progress.
+- Persist `practiceDays` (YYYY-MM-DD set) in the store; recorded on session
+  complete (deduped, 400-day cap); cleared by resetProgress. `localToday()`
+  helper (local, not UTC).
+- InsightsPanel: streak banner (animated flame) + achievements grid (unlocked
+  glow / locked+progress bar). 5 streak i18n keys ×6 locales; badge names EN
+  (auto-fallback). tk() cast wrapper for computed i18n keys.
+
+**Export / Import my data:**
+- `lib/backup.ts` (NEW, pure/tested): buildBackup/parseBackup/applyBackup over
+  all 4 localStorage keys; magic+version guard; ignores unknown keys on import.
+  downloadBackup()/restoreFromFile() browser glue.
+- SettingsDrawer: DataManagement row (⬇ Export / ⬆ Import + hidden file input),
+  toast feedback, reload after restore. 6 i18n keys.
+
+**Tests:** achievements.test.ts (10) + backup.test.ts (5) => 137 total green.
+
+**README hero + polish:**
+- `docs/media/hero.svg` (NEW): on-brand vector hero banner (gradient title, WPM
+  orb) embedded at top of README (screenshot tool couldn't write PNGs to a
+  committable path; SVG is crisp + version-controlled). Added Streaks/
+  Achievements + Own-your-data feature rows. Test badge → 137.
+
+**Verified in-browser:** streak banner shows 5-day streak, 5/10 badges unlocked
+(screenshot); export/import buttons render + backup round-trips; hero.svg renders.
+
 ## 2026-07-01 (cont.) — Repo cleanup + pro README + Insights dashboard
 
 **Repo cleanup (local + GitHub):**

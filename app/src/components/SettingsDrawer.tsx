@@ -6,6 +6,8 @@ import {
   settings, drawerOpen, history,
   updateSetting, resetProgress,
 } from '../lib/store';
+import { downloadBackup, restoreFromFile } from '../lib/backup';
+import { showToast } from '../hooks/useToast';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { LOCALES, locale, t, type LocaleCode } from '../lib/i18n';
 import { KB_LAYOUT_LIST, type KbLayoutId } from '../lib/layouts';
@@ -198,6 +200,8 @@ export function SettingsDrawer() {
 
           <BillingPanel />
 
+          <DataManagement />
+
           <div class="setting-row">
             <button
               class="btn"
@@ -242,6 +246,43 @@ function Switch({ on, onToggle, label }: { on: boolean; onToggle(): void; label:
         if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); onToggle(); }
       }}
     />
+  );
+}
+
+/** Export / import all on-device data as a JSON file — a no-account way to back
+ *  up and move progress between browsers/machines. */
+function DataManagement() {
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
+  async function onFile(e: Event) {
+    const input = e.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = ''; // allow re-importing the same file
+    if (!file) return;
+    try {
+      const n = await restoreFromFile(file);
+      showToast(t('dataImported', n));
+      // Reload so all signals re-hydrate from the restored localStorage.
+      setTimeout(() => location.reload(), 800);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : t('dataImportFailed'));
+    }
+  }
+
+  return (
+    <div class="setting-row" style="flex-direction:column;align-items:stretch;gap:8px">
+      <div class="lbl"><span class="name">{t('dataTitle')}</span></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" style="flex:1;justify-content:center" onClick={() => { downloadBackup(); showToast(t('dataExported')); }}>
+          {t('dataExport')}
+        </button>
+        <button class="btn" style="flex:1;justify-content:center" onClick={() => fileRef.current?.click()}>
+          {t('dataImport')}
+        </button>
+      </div>
+      <input ref={fileRef} type="file" accept="application/json,.json" style="display:none"
+             aria-hidden="true" tabIndex={-1} onChange={onFile} />
+    </div>
   );
 }
 

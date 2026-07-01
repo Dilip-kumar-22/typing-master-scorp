@@ -103,6 +103,17 @@ export const completedLessons = signal<string[]>(persisted.completedLessons || [
 // sessions — survives the 20-session history cap. Powers the Insights panel.
 export const keyStats = signal<KeyStats>(persisted.keyStats || {});
 
+// Distinct local calendar days the user completed a session on (YYYY-MM-DD).
+// Powers the practice streak + day-count achievements.
+export const practiceDays = signal<string[]>(persisted.practiceDays || []);
+
+/** Local (not UTC) YYYY-MM-DD for "today" — matches the user's calendar. */
+export function localToday(): string {
+  const d = new Date();
+  const p = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
 // Per-lesson "skip the intro guide" preference. Persisted via a separate
 // localStorage key so it doesn't bloat the main store payload.
 const SKIPPED_GUIDE_KEY = 'typing_master_skipped_guides';
@@ -301,8 +312,9 @@ export function resetProgress(): void {
     unlockedLessons.value = ['lesson-1'];
     completedLessons.value = [];
     keyStats.value = {};
+    practiceDays.value = [];
   });
-  persist({ history: [], unlockedLessons: ['lesson-1'], completedLessons: [], keyStats: {} });
+  persist({ history: [], unlockedLessons: ['lesson-1'], completedLessons: [], keyStats: {}, practiceDays: [] });
 }
 
 export function shareResult(toast: (msg: string) => void): void {
@@ -406,6 +418,16 @@ export function completeSession(): void {
     }
     keyStats.value = next;
     persist({ keyStats: next });
+  }
+
+  // Record today's date for the practice-streak (dedup — one entry per day).
+  {
+    const today = localToday();
+    if (!practiceDays.value.includes(today)) {
+      const days = [...practiceDays.value, today].slice(-400); // ~13 months cap
+      practiceDays.value = days;
+      persist({ practiceDays: days });
+    }
   }
 
   // Fire-and-forget cloud push. Local copy is already saved above, so a

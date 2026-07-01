@@ -1453,9 +1453,45 @@ body.theme-light .finger-guide { background: rgba(0,0,0,0.03); }
    INSIGHTS — typing analysis dashboard
    ========================================================= */
 .insights { margin-top: 8px; }
+.ins-top { display: grid; grid-template-columns: minmax(200px, 260px) 1fr; gap: 14px; margin: 4px 0 16px; }
+.ins-streak {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(251,146,60,0.16), rgba(244,63,94,0.10));
+  border: 1px solid rgba(251,146,60,0.28); position: relative;
+}
+.ins-streak-flame { font-size: 30px; filter: grayscale(1) opacity(0.5); transition: filter 0.3s ease; }
+.ins-streak-flame[data-lit="true"] { filter: none; animation: flame-flicker 1.8s ease-in-out infinite; }
+@keyframes flame-flicker { 0%,100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.12) rotate(2deg); } }
+.ins-streak-num { font-family: var(--font-mono); font-size: 30px; font-weight: 800; line-height: 1; color: var(--text-0); }
+.ins-streak-lbl { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); font-weight: 600; margin-top: 3px; }
+.ins-streak-meta { margin-left: auto; display: flex; flex-direction: column; gap: 4px; text-align: right; font-size: 11px; color: var(--text-3); }
+.ins-streak-meta strong { color: var(--text-1); font-family: var(--font-mono); }
+
+.ins-ach { margin: 0 0 18px; padding: 16px 18px; border-radius: 16px; background: var(--panel); border: 1px solid var(--hairline); }
+.ins-ach-count { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--accent); }
+.ins-badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.ins-badge {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 5px;
+  padding: 12px 8px; border-radius: 12px; position: relative;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--hairline);
+  opacity: 0.55; filter: grayscale(0.7); transition: all 0.2s ease;
+}
+.ins-badge.on {
+  opacity: 1; filter: none;
+  background: linear-gradient(160deg, rgba(139,92,246,0.14), rgba(34,211,238,0.06));
+  border-color: rgba(139,92,246,0.35);
+  box-shadow: 0 4px 16px rgba(139,92,246,0.15);
+}
+.ins-badge-icon { font-size: 26px; line-height: 1; }
+.ins-badge-title { font-size: 11px; font-weight: 700; color: var(--text-1); line-height: 1.2; }
+.ins-badge.on .ins-badge-title { color: var(--text-0); }
+.ins-badge-bar { width: 70%; height: 4px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; margin-top: 2px; }
+.ins-badge-bar > span { display: block; height: 100%; background: var(--accent-gradient); border-radius: 999px; }
+@media (max-width: 720px) { .ins-top { grid-template-columns: 1fr; } }
+
 .ins-reco {
   display: flex; gap: 12px; align-items: center;
-  padding: 14px 18px; border-radius: 14px; margin: 4px 0 18px;
+  padding: 14px 18px; border-radius: 14px;
   background: linear-gradient(120deg, rgba(139,92,246,0.14), rgba(34,211,238,0.08));
   border: 1px solid rgba(139,92,246,0.25);
 }

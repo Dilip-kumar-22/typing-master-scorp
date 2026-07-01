@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" font-family="'Segoe UI',system-ui,sans-serif" role="img" aria-label="Typing Master — train your fingers, sharpen your mind">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e0a22"/>
+      <stop offset="0.55" stop-color="#151033"/>
+      <stop offset="1" stop-color="#0a0f26"/>
+    </linearGradient>
+    <radialGradient id="orbA" cx="0.35" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="0.5" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#3b0f6b"/>
+    </radialGradient>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#c4b5fd"/>
+      <stop offset="0.5" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="pill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="480" rx="24" fill="url(#bg)"/>
+  <!-- ambient orbs -->
+  <circle cx="180" cy="120" r="150" fill="#8b5cf6" opacity="0.16" filter="url(#soft)"/>
+  <circle cx="1040" cy="400" r="170" fill="#ec4899" opacity="0.12" filter="url(#soft)"/>
+  <circle cx="980" cy="120" r="120" fill="#22d3ee" opacity="0.12" filter="url(#soft)"/>
+
+  <!-- subtle grid -->
+  <g stroke="#ffffff" stroke-opacity="0.04">
+    <path d="M0 160 H1200 M0 320 H1200 M300 0 V480 M600 0 V480 M900 0 V480"/>
+  </g>
+
+  <!-- eyebrow -->
+  <g transform="translate(72,86)">
+    <circle cx="6" cy="-4" r="5" fill="#8b5cf6"/>
+    <text x="22" y="0" fill="#b9b2e6" font-size="15" letter-spacing="3" font-weight="600">A FREE, INSTALLABLE TOUCH-TYPING TUTOR</text>
+  </g>
+
+  <!-- headline -->
+  <text x="70" y="188" font-size="72" font-weight="800" fill="#ffffff" letter-spacing="-1">Train your fingers.</text>
+  <text x="70" y="262" font-size="72" font-weight="800" fill="url(#grad)" letter-spacing="-1">Sharpen your mind.</text>
+
+  <!-- subcopy -->
+  <text x="72" y="312" font-size="20" fill="#a9a3d0">41 chapters · visual finger guide · adaptive practice · works offline.</text>
+
+  <!-- CTA pill -->
+  <g transform="translate(72,344)">
+    <rect width="230" height="52" rx="26" fill="url(#pill)"/>
+    <path d="M28 26 l-11 -8 v16 z" fill="#fff"/>
+    <text x="52" y="33" font-size="18" font-weight="700" fill="#fff">Start practising</text>
+  </g>
+  <g transform="translate(320,344)">
+    <rect width="210" height="52" rx="26" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="26" y="27" font-size="12" fill="#8a83b8" letter-spacing="1">INSTALL TO DESKTOP</text>
+    <text x="26" y="43" font-size="14" font-weight="700" fill="#efeaff">one click · offline · yours</text>
+  </g>
+
+  <!-- WPM orb -->
+  <g transform="translate(1000,236)">
+    <circle r="150" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+    <circle r="112" fill="url(#orbA)"/>
+    <circle r="112" fill="#000" fill-opacity="0.12"/>
+    <text x="0" y="6" text-anchor="middle" font-size="76" font-weight="800" fill="#ffffff">92</text>
+    <text x="0" y="44" text-anchor="middle" font-size="14" letter-spacing="3" fill="#d9cffff0">BEST WPM</text>
+  </g>
+</svg>

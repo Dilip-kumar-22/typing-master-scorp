@@ -148,6 +148,9 @@ export interface PersistedStore {
   unlockedLessons?: string[];
   completedLessons?: string[];
   keyStats?: KeyStats;
+  /** Local calendar days (YYYY-MM-DD) on which the user completed a session.
+   *  Powers the practice streak + the "practiced N days" achievement. */
+  practiceDays?: string[];
   // Phase-5 adaptive engine. Stored as a plain JSON object (the inner
   // type is defined in lib/keybr.ts to avoid a circular import here).
   keybr?: {

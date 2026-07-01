@@ -1,10 +1,28 @@
 import { computed } from '@preact/signals';
-import { history, keyStats, customKeys, activeTab, pickAndStart } from '../lib/store';
+import {
+  history, keyStats, customKeys, activeTab, pickAndStart,
+  practiceDays, completedLessons, localToday,
+} from '../lib/store';
 import { computeInsights } from '../lib/insights';
+import { computeAchievements } from '../lib/achievements';
+import { LESSONS } from '../lib/data';
 import { t } from '../lib/i18n';
+import type { StringKeys } from '../lib/locales/en';
+
+// Badge title/desc are computed i18n keys (`ach_<id>_t`/`_d`) — all declared in
+// en.ts, so this cast is safe. A tiny wrapper keeps the call sites clean.
+const tk = (key: string, ...a: (string | number)[]) => t(key as StringKeys, ...a);
 
 // Derived once, reactively — recomputes whenever a session lands.
 const insights = computed(() => computeInsights(history.value, keyStats.value));
+const achievements = computed(() => computeAchievements({
+  history: history.value,
+  keyStats: keyStats.value,
+  completedLessons: completedLessons.value,
+  practiceDays: practiceDays.value,
+  totalChapters: LESSONS.length,
+  today: localToday(),
+}));
 
 /** A small horizontal accuracy bar (green→amber→red by value). */
 function AccBar({ value }: { value: number }) {
@@ -29,6 +47,8 @@ function drillWeakKeys(keys: string[]): void {
 export function InsightsPanel() {
   const i = insights.value;
   if (i.totalSessions === 0) return null;
+  const { streak, badges } = achievements.value;
+  const unlockedCount = badges.filter(b => b.unlocked).length;
 
   const deltaStr = i.wpmDelta == null ? null
     : (i.wpmDelta >= 0 ? `▲ +${i.wpmDelta}` : `▼ ${i.wpmDelta}`);
@@ -44,10 +64,43 @@ export function InsightsPanel() {
         <p>{t('insSub')}</p>
       </div>
 
-      {/* Headline recommendation */}
-      <div class="ins-reco">
-        <span class="ins-reco-icon" aria-hidden="true">💡</span>
-        <p>{i.recommendation}</p>
+      {/* Streak + recommendation, side by side */}
+      <div class="ins-top">
+        <div class="ins-streak" title={t('insStreakLongest', streak.longest)}>
+          <div class="ins-streak-flame" data-lit={streak.current > 0}>🔥</div>
+          <div class="ins-streak-body">
+            <div class="ins-streak-num">{streak.current}</div>
+            <div class="ins-streak-lbl">{t('insDayStreak')}</div>
+          </div>
+          <div class="ins-streak-meta">
+            <span>{t('insBest')}: <strong>{streak.longest}</strong></span>
+            <span>{t('insDaysTotal')}: <strong>{streak.daysTotal}</strong></span>
+          </div>
+        </div>
+        <div class="ins-reco">
+          <span class="ins-reco-icon" aria-hidden="true">💡</span>
+          <p>{i.recommendation}</p>
+        </div>
+      </div>
+
+      {/* Achievements */}
+      <div class="ins-ach">
+        <div class="ins-card-head">
+          <h3>{t('insAchievements')}</h3>
+          <span class="ins-ach-count">{unlockedCount} / {badges.length}</span>
+        </div>
+        <div class="ins-badges">
+          {badges.map(b => (
+            <div class={'ins-badge' + (b.unlocked ? ' on' : '')} key={b.id}
+                 title={tk(b.desc) + ' · ' + b.progressLabel}>
+              <span class="ins-badge-icon" aria-hidden="true">{b.icon}</span>
+              <span class="ins-badge-title">{tk(b.title)}</span>
+              {!b.unlocked && (
+                <span class="ins-badge-bar"><span style={`width:${Math.round(b.progress * 100)}%`} /></span>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Top-line numbers */}

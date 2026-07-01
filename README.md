@@ -1,5 +1,9 @@
 <div align="center">
 
+<a href="https://dilip-kumar-22.github.io/typing-master-scorp/">
+  <img src="docs/media/hero.svg" alt="Typing Master — train your fingers, sharpen your mind" width="100%" />
+</a>
+
 # ⌨️ Typing Master
 
 ### Learn to touch-type properly — a free, installable typing tutor that lives on your desktop and works offline.
@@ -10,7 +14,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
 ![PWA](https://img.shields.io/badge/PWA-installable-5A0FC8?logo=pwa&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-122%20passing-3DDC84)
+![Tests](https://img.shields.io/badge/tests-137%20passing-3DDC84)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
 </div>
@@ -54,10 +58,12 @@ Once installed it runs completely offline, and **all your progress, stats, strea
 | ⌨️ **3D keyboard heatmap** | See in real time which keys you hit most — and which you miss. |
 | 🏁 **Challenges** | Daily seeded run, paragraph speed-runs, punctuation drills, and code-typing tests. |
 | 📊 **Stats & trends** | Best/avg WPM, accuracy, streaks, session history, and a WPM-over-time trend graph. |
-| 🔬 **Typing analysis** | A personal insights dashboard: your all-time weakest keys, per-finger accuracy, improvement delta, consistency, and a plain-English "what to work on next" — with a one-click drill of your weak keys. |
+| 🔬 **Typing analysis** | A personal insights dashboard: all-time weakest keys, per-finger accuracy, improvement delta, consistency, and a plain-English "what to work on next" — with a one-click drill of your weak keys. |
+| 🔥 **Streaks & achievements** | A daily practice streak and 10 unlockable badges (First Steps → Marathoner) to keep you coming back. |
+| 💾 **Own your data** | One-click **export** of everything to a JSON file, and **import** to restore it on any device — a no-account way to back up and move your progress. |
 | 🎨 **Make it yours** | Light/dark/auto themes, 4 accent colours, fonts, cursor styles, sound packs — all apply live. |
 | 🌍 **6 languages · 5 layouts** | English, Spanish, Portuguese, Hindi, French, German · QWERTY/AZERTY/QWERTZ/Dvorak/Colemak. |
-| 📴 **Offline-first PWA** | Installs to your device; works with no internet; updates itself when you're back online. |
+| 📴 **Offline-first PWA** | Installs to your device; works with no internet; updates itself when you're back online (with a friendly refresh prompt). |
 
 > A backend (accounts, cloud sync, leaderboards, multiplayer, classrooms) is **built-in but optional** — the app runs fully local-only with zero setup. See [docs/](docs/) if you ever want to enable it.
 
@@ -65,14 +71,11 @@ Once installed it runs completely offline, and **all your progress, stats, strea
 
 ## 🖼️ See it in action
 
-The best "screenshot" is the real thing — **[open the live app](https://dilip-kumar-22.github.io/typing-master-scorp/)** (it loads instantly and works offline once installed).
+The best demo is the real thing — **[open the live app](https://dilip-kumar-22.github.io/typing-master-scorp/)** (loads instantly, works offline once installed). A quick tour of what you'll find:
 
-Highlights to look for:
-- **Chapter 0** — the colour-coded keyboard that shows which finger owns each key.
-- **Practice** — the 3D keyboard heatmap lighting up as you type.
-- **Dashboard** — your WPM trend, accuracy, and streaks.
-
-> _Maintainer note: to embed static images, drop them in `docs/media/` and link them here._
+- **Chapter 0** — a colour-coded keyboard that shows which finger owns each key, with an animated hand guide.
+- **Practice** — a 3D mechanical keyboard that lights up as you type, with live WPM and accuracy.
+- **Your typing analysis** — weakest keys, per-finger accuracy, a practice streak, and unlockable achievements.
 
 ---
 
@@ -92,7 +95,7 @@ cd typing-master-scorp/app
 npm install
 
 npm run dev          # http://localhost:5173
-npm test             # vitest → 122 passing
+npm test             # vitest → 137 passing
 npm run typecheck    # tsc, clean
 npm run build        # tsc + vite + 45 static SEO pages + PWA service worker (0 warnings)
 npm run preview      # serve the production build
@@ -113,12 +116,12 @@ To host it yourself anywhere else, `npm run build` and serve the `app/dist/` fol
 │   │   ├── components/       # UI (Home, Practice, SettingsDrawer, FingerGuide/Chapter 0, …)
 │   │   ├── lib/              # store, metrics, keybr engine, lessons, i18n, device, …
 │   │   ├── hooks/            # global keys, mobile input, focus trap, toast, install prompt
-│   │   └── test/             # 122 vitest tests
+│   │   └── test/             # 137 vitest tests
 │   ├── scripts/              # build-seo.mjs (static landing pages, base-aware)
 │   └── supabase/             # OPTIONAL backend schema + edge functions (off by default)
 ├── .github/workflows/        # pages.yml (deploy PWA) · android.yml (build APK)
-├── docs/                     # setup + build guides (backend, native, mobile)
-├── INSTALL.md  SECURITY.md  PROJECT_MAP.md  WORKLOG.md
+├── docs/                     # setup + build guides + media (README hero)
+├── INSTALL.md  SECURITY.md  PROJECT_MAP.md  WORKLOG.md  LICENSE
 └── README.md
 ```
 
